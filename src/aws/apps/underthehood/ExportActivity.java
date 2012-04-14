@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import aws.util.underthehood.UsefulBits;
+import aws.apps.underthehood.util.UsefulBits;
 
 import com.actionbarsherlock.app.SherlockActivity;
 

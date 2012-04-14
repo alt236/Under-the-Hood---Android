@@ -25,11 +25,11 @@ import android.widget.TableLayout;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TableRow;
 import android.widget.TextView;
-import aws.util.underthehood.ExecTerminal;
-import aws.util.underthehood.ExecuteThread;
-import aws.util.underthehood.GuiCreation;
-import aws.util.underthehood.SavedData;
-import aws.util.underthehood.UsefulBits;
+import aws.apps.underthehood.container.SavedData;
+import aws.apps.underthehood.ui.GuiCreation;
+import aws.apps.underthehood.util.ExecTerminal;
+import aws.apps.underthehood.util.ExecuteThread;
+import aws.apps.underthehood.util.UsefulBits;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;

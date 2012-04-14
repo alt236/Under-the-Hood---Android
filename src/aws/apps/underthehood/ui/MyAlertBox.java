@@ -1,4 +1,4 @@
-package aws.util.underthehood;
+package aws.apps.underthehood.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;

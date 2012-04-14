@@ -1,4 +1,4 @@
-package aws.util.underthehood;
+package aws.apps.underthehood.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,6 +23,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import aws.apps.underthehood.R;
+import aws.apps.underthehood.ui.MyAlertBox;
 
 public class UsefulBits {
 	final String TAG =  this.getClass().getName();

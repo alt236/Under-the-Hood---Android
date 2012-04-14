@@ -1,4 +1,4 @@
-package aws.util.underthehood;
+package aws.apps.underthehood.util;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;

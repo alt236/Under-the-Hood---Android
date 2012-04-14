@@ -1,4 +1,4 @@
-package aws.util.underthehood;
+package aws.apps.underthehood.util;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import aws.apps.underthehood.R;
+import aws.apps.underthehood.ui.GuiCreation;
 
 public class ExecuteThread extends Thread {
 	final String TAG =  this.getClass().getName();

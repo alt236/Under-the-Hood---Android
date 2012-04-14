@@ -1,4 +1,4 @@
-package aws.util.underthehood;
+package aws.apps.underthehood.ui;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -10,6 +10,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import aws.apps.underthehood.R;
+import aws.apps.underthehood.util.UsefulBits;
 
 public class GuiCreation {
 
