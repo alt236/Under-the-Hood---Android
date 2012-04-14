@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TableLayout
+        android:id="@+id/main_table_device_info"
+        style="@style/DefaultTableLayoutStyle"
+        android:layout_alignParentTop="true" >
+
+        <TableRow style="@style/TopResultDataRow" >
+
+            <TextView android:text="@string/label_device" />
+
+            <TextView
+                android:id="@+id/tvDevice"
+                style="@style/TopResultTextView"
+                android:layout_span="2" />
+        </TableRow>
+
+        <TableRow style="@style/TopResultDataRow" >
+
+            <TextView android:text="@string/label_root_status" />
+
+            <TextView
+                android:id="@+id/tvRootStatus"
+                style="@style/TopResultTextView"
+                android:layout_span="2" />
+        </TableRow>
+
+        <TableRow style="@style/TopResultDataRow" >
+
+            <TextView android:text="@string/label_time" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                style="@style/TopResultTextView"
+                android:layout_span="2" />
+        </TableRow>
+    </TableLayout>
+
+    <TabHost
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/tabhost"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/main_table_device_info" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <ScrollView
+                    android:id="@+id/main_scrollview_ipconfig_info"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true" >
+
+                        <TableLayout
+                            android:id="@+id/main_table_ipconfig_info"
+                            style="@style/DefaultTableLayoutStyle" >
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/main_scrollview_ip_route_info"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true" >
+
+                        <TableLayout
+                            android:id="@+id/main_table_ip_route_info"
+                            style="@style/DefaultTableLayoutStyle" >
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/main_scrollview_proc_info"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true" >
+
+                        <TableLayout
+                            android:id="@+id/main_table_proc_info"
+                            style="@style/DefaultTableLayoutStyle" >
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/main_scrollview_netstat_info"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true" >
+
+                        <TableLayout
+                            android:id="@+id/main_table_netstat_info"
+                            style="@style/DefaultTableLayoutStyle" >
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/main_scrollview_ps_info"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true" >
+
+                        <TableLayout
+                            android:id="@+id/main_table_ps_info"
+                            style="@style/DefaultTableLayoutStyle" >
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+
+                <ScrollView
+                    android:id="@+id/main_scrollview_other_info"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <HorizontalScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:fillViewport="true" >
+
+                        <TableLayout
+                            android:id="@+id/main_table_other_info"
+                            style="@style/DefaultTableLayoutStyle" >
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+</RelativeLayout>
