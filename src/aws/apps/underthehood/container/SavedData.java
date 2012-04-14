@@ -78,28 +78,28 @@ public class SavedData {
 	}
 	
 	
-	public void popoulateTIp(TableLayout t){
+	public void populateIp(TableLayout t){
 		tIp = tableToList(t);
 	}
 	
-	public void popoulateTIpConfig(TableLayout t){
+	public void populateIpConfig(TableLayout t){
 		tIpConfig = tableToList(t);
 	}
 	
 	
-	public void popoulateRoute(TableLayout t){
+	public void populateRoute(TableLayout t){
 		tRoute = tableToList(t);
 	}
 	
-	public void popoulateNetlist(TableLayout t){
+	public void populateNetlist(TableLayout t){
 		tNetlist = tableToList(t);
 	}
 	
-	public void popoulatePs(TableLayout t){
+	public void populatePs(TableLayout t){
 		tPs = tableToList(t);
 	}
 	
-	public void popoulateOther(TableLayout t){
+	public void populateOther(TableLayout t){
 		tOther = tableToList(t);
 	}
 	

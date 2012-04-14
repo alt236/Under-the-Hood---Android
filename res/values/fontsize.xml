@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<integer name="terminal_title_font">16</integer>
-	<integer name="terminal_data_font">10</integer>
-	
-	<integer name="min_font_size">8</integer>
-	<integer name="max_font_size">16</integer>
+
+    <dimen name="terminal_title_font"> 14sp </dimen>
+    <dimen name="terminal_data_font"> 10sp </dimen>
+    
+    <dimen name="min_font_size"> 8sp </dimen>
+    <dimen name="max_font_size"> 16sp </dimen>
+
 </resources>

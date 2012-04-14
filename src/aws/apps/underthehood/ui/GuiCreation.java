@@ -3,6 +3,7 @@ package aws.apps.underthehood.ui;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.ClipboardManager;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -24,52 +25,41 @@ public class GuiCreation {
 		uB = new UsefulBits(c);
 	}
 	
-	public void resetOffset(){
-		tableIdOffset = 1;
-	}
-	
-	public TableRow createSeperatorRow(String text){
-		return createRow(text,
-				c.getResources().getInteger(R.integer.terminal_title_font),
-				c.getResources().getColor(R.color.black),
-				c.getResources().getColor(R.color.orange));
-	}
-	
-	public TableRow createTitleRow(String text){
-		return createRow(text,
-				c.getResources().getInteger(R.integer.terminal_title_font),
-				c.getResources().getColor(R.color.black),
-				c.getResources().getColor(R.color.white));
-	}
-
-	public TableRow createDataRow(String text, int dataTextSize){
+	public TableRow createDataRow(String text, float dataTextSize){
 		return createRow(text,
 				dataTextSize,
 				c.getResources().getColor(R.color.white),
 				c.getResources().getColor(R.color.black));
 	}
-
-	private TableRow createRow(String text, int TextSize, int TextColor, int BgColor) {
+	
+	private TableRow createRow(String text, float TextSize, int TextColor, int BgColor) {
 		TableRow tr = new TableRow(c);
 		tr.setId(100 + tableIdOffset);
 		tr.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		tr.setMinimumHeight(35);
+		tr.setMinimumHeight(UsefulBits.dipToPixels(20, c));
 		tr.addView(createTextView(200 + tableIdOffset, text, TextSize, TextColor, BgColor));
 		tr.setBackgroundColor(BgColor);
 
 		tableIdOffset += 1;
 		return tr;
 	}
+	
+	public TableRow createSeperatorRow(String text){
+		return createRow(text,
+				c.getResources().getDimension(R.dimen.terminal_title_font),
+				c.getResources().getColor(R.color.black),
+				c.getResources().getColor(R.color.orange));
+	}
 
-	private TextView createTextView(int id, String text, int TextSize , int TextColor, int BgColor) {
+	private TextView createTextView(int id, String text, float TextSize , int TextColor, int BgColor) {
 		TextView tv = new TextView(c);
 		tv.setId(id);
 
 		tv.setText(text);
 		tv.setTextColor(TextColor);
 		tv.setBackgroundColor(BgColor);
-		tv.setTextSize(TextSize);
-		tv.setMinHeight(20);
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, TextSize);
+		tv.setMinimumHeight(UsefulBits.dipToPixels(20, c));
 		tv.setTypeface(Typeface.MONOSPACE);
 
 		tv.setTag(text);
@@ -96,6 +86,17 @@ public class GuiCreation {
 		});
 
 		return tv;
+	}
+
+	public TableRow createTitleRow(String text){
+		return createRow(text,
+				c.getResources().getDimension(R.dimen.terminal_title_font),
+				c.getResources().getColor(R.color.black),
+				c.getResources().getColor(R.color.white));
+	}
+
+	public void resetOffset(){
+		tableIdOffset = 1;
 	}
 	
 }

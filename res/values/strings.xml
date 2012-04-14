@@ -20,6 +20,7 @@
 		•v0.0.7 Added parsing of /proc, rearranged tab contents.\n
 		•v0.0.8 Added more commands, added group separators.\n
 		•v0.0.9 Fixed export to SD card.\n
+		•v0.1.0 UI rewrite and fixes.\n
 	</string>
 
 	<string name="app_notes">
