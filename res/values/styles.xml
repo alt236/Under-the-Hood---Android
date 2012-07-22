@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="TopResultTextView" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_weight">1</item>
@@ -16,14 +16,13 @@
     <style name="DefaultTableLayoutStyle">
     	<item name="android:layout_width">fill_parent</item>
     	<item name="android:layout_height">wrap_content</item>
-    	<item name="android:shrinkColumns">1</item>
     </style>
     
-    <style name="TerminalTextView" parent="@android:style/TextAppearance.Small">
-        <item name="android:layout_width">wrap_content</item>
+    <style name="TerminalTextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">10sp</item>
-        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:typeface">monospace</item>
     </style>
     
 </resources>

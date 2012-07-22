@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -39,7 +38,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-
 public class Main extends SherlockActivity {
 	private static final int DIALOG_EXECUTING = 1;
 	final String TAG =  this.getClass().getName();
@@ -65,9 +63,9 @@ public class Main extends SherlockActivity {
 	private Bundle threadBundle;
 
 	final Handler handler = new Handler() {
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", })
 		public void handleMessage(Message msg) {
-			final LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+			final LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			ArrayList<String> l = new ArrayList<String>();
 			switch(msg.what){
 
@@ -153,7 +151,6 @@ public class Main extends SherlockActivity {
 
 		lblRootStatus.setText("");
 		lblTimeDate.setText("");
-		gui.resetOffset();
 	}
 
 	public void fontSizeDecrease(){
@@ -201,7 +198,7 @@ public class Main extends SherlockActivity {
 				} else if (chr.equals(seperator)){
 					t.addView(gui.createSeperatorRow(l.get(i)),lp);
 				}else {
-					t.addView(gui.createDataRow(l.get(i), mDataTextSize),lp);
+					t.addView(gui.createDataRow(l.get(i)),lp);
 				}
 			}
 		} catch (Exception e){
@@ -324,14 +321,14 @@ public class Main extends SherlockActivity {
 				Log.e(TAG, "^ " + e.getMessage());
 			}
 		}
-		else if(R.id.menu_increase_font_size == id ){
-			fontSizeIncrease();
-			return true;
-		}
-		else if(R.id.menu_decrease_font_size == id ){
-			fontSizeDecrease();
-			return true;
-		}
+//		else if(R.id.menu_increase_font_size == id ){
+//			fontSizeIncrease();
+//			return true;
+//		}
+//		else if(R.id.menu_decrease_font_size == id ){
+//			fontSizeDecrease();
+//			return true;
+//		}
 		else if(R.id.menu_refresh == id ){
 			refreshInfo();
 			return true;

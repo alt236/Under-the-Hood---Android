@@ -13,12 +13,6 @@
         android:id="@+id/menu_to_sd"
         android:title="@string/label_menu_save_to_sd"/>    
     <item
-        android:id="@+id/menu_increase_font_size"
-        android:title="@string/label_menu_font_size_plus"/>
-    <item
-        android:id="@+id/menu_decrease_font_size"
-        android:title="@string/label_menu_font_size_minus"/>
-    <item
         android:id="@+id/menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/label_menu_about"/>
