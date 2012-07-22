@@ -74,5 +74,12 @@ public class GuiCreation {
 		
 		return tr;
 	}
-
+	
+	public View getScrollableTable(){
+		return inflater.inflate(R.layout.page_scrollable_table, null);
+	}
+	
+	public View getScrollableTextView(){
+		return inflater.inflate(R.layout.page_scrollable_textview, null);
+	}
 }

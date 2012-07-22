@@ -18,15 +18,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TableLayout;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TableRow;
 import android.widget.TextView;
+import aws.apps.underthehood.adapters.ViewPagerAdapter;
 import aws.apps.underthehood.container.SavedData;
 import aws.apps.underthehood.ui.GuiCreation;
 import aws.apps.underthehood.util.ExecTerminal;
@@ -37,12 +37,15 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class Main extends SherlockActivity {
 	private static final int DIALOG_EXECUTING = 1;
 	final String TAG =  this.getClass().getName();
-
-	private TabHost mTabHost;
+	
+	private ViewPagerAdapter mAdapter;
+	private ViewPager mViewPager;
+	private TabPageIndicator mIndicator;
 	private String mTimeDate="";
 	private UsefulBits uB;
 	private TableLayout tableIpconfig;
@@ -63,7 +66,7 @@ public class Main extends SherlockActivity {
 	private Bundle threadBundle;
 
 	final Handler handler = new Handler() {
-		@SuppressWarnings({ "unchecked", })
+		@SuppressWarnings({ "unchecked", "deprecation", })
 		public void handleMessage(Message msg) {
 			final LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			ArrayList<String> l = new ArrayList<String>();
@@ -231,16 +234,8 @@ public class Main extends SherlockActivity {
 
 		//setup GUI
 		gui = new GuiCreation(this);
-		tableIpconfig = (TableLayout) findViewById(R.id.main_table_ipconfig_info);
-		tableIpRoute= (TableLayout) findViewById(R.id.main_table_ip_route_info);
-		tablePs= (TableLayout) findViewById(R.id.main_table_ps_info);
-		tableOther= (TableLayout) findViewById(R.id.main_table_other_info);
-		tableNetstat= (TableLayout) findViewById(R.id.main_table_netstat_info);
-		tableProc= (TableLayout) findViewById(R.id.main_table_proc_info);
-		tableDeviceInfo= (TableLayout) findViewById(R.id.main_table_device_info);
 		lblRootStatus= (TextView) findViewById(R.id.tvRootStatus);
 		lblTimeDate = (TextView) findViewById(R.id.tvTime);
-		//lblROM = (TextView) findViewById(R.id.tvROM);
 		lblDevice = (TextView) findViewById(R.id.tvDevice);
 
 		setupTabs();
@@ -356,10 +351,11 @@ public class Main extends SherlockActivity {
 	}
 
 	/** Retrieves and displays info */
+	@SuppressWarnings("deprecation")
 	private void populateInfo(){
 		//HashMap<Integer, Boolean> actionMap) {
 		final Object data = getLastNonConfigurationInstance();
-		LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		if (data == null) { // We need to do everything from scratch!
 			mTimeDate = uB.formatDateTime("yyyy-MM-dd-HHmmssZ", new Date());
@@ -406,26 +402,53 @@ public class Main extends SherlockActivity {
 
 	/////////////////////////////////////////////
 	private void setupTabs(){
+		mAdapter = new ViewPagerAdapter();
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
 
-		mTabHost = (TabHost)findViewById(android.R.id.tabhost);
-		mTabHost.setup();
+		tableDeviceInfo= (TableLayout) findViewById(R.id.main_table_device_info);
+		
+		View v;
 
-		TabWidget tw = mTabHost.getTabWidget();
+		v = gui.getScrollableTable();
+		tableIpconfig = (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "netcfg / ipconfig");
 
-		mTabHost.addTab(mTabHost.newTabSpec("tab_ipconfig").setIndicator("netcfg / ipconfig", getResources().getDrawable(R.drawable.ipconfig)).setContent(R.id.main_scrollview_ipconfig_info));
-		mTabHost.addTab(mTabHost.newTabSpec("tab_ip_route").setIndicator("ip", getResources().getDrawable(R.drawable.ip)).setContent(R.id.main_scrollview_ip_route_info));
-		mTabHost.addTab(mTabHost.newTabSpec("tab_proc").setIndicator("proc", getResources().getDrawable(R.drawable.route)).setContent(R.id.main_scrollview_proc_info));
-		mTabHost.addTab(mTabHost.newTabSpec("tab_netstat").setIndicator("netstat", getResources().getDrawable(R.drawable.netlist)).setContent(R.id.main_scrollview_netstat_info));
-		mTabHost.addTab(mTabHost.newTabSpec("tab_ps").setIndicator("ps", getResources().getDrawable(R.drawable.ps)).setContent(R.id.main_scrollview_ps_info));
-		mTabHost.addTab(mTabHost.newTabSpec("tab_other").setIndicator("other", getResources().getDrawable(R.drawable.other)).setContent(R.id.main_scrollview_other_info));
-		mTabHost.setCurrentTab(0);
+		v = gui.getScrollableTable();
+		tableIpRoute = (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "ip");
+		
+		v = gui.getScrollableTable();
+		tableNetstat =  (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "netstat");
+		
+		v = gui.getScrollableTable();
+		tableProc =  (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "proc");
+		
+		v = gui.getScrollableTable();
+		tablePs = (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "ps");
 
-		for (int i = 0; i < tw.getChildCount(); i++) {
-			tw.getChildAt(i).getLayoutParams().height = UsefulBits.dipToPixels(40, this);
-			final TextView tv = (TextView) tw.getChildAt(i).findViewById(android.R.id.title);        
-			//tv.setTextColor(this.getResources().getColorStateList(R.drawable.text_tab_indicator));
-			tv.setTextSize(10f);
-		} 
+		v = gui.getScrollableTable();
+		tableOther = (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "other");
+
+
+		
+		
+		mViewPager.setAdapter(mAdapter);
+		mIndicator.setViewPager(mViewPager);
+//		
+//		
+//		mTabHost.addTab(mTabHost.newTabSpec("tab_ipconfig").setIndicator("netcfg / ipconfig", getResources().getDrawable(R.drawable.ipconfig)).setContent(R.id.main_scrollview_ipconfig_info));
+//		mTabHost.addTab(mTabHost.newTabSpec("tab_ip_route").setIndicator("ip", getResources().getDrawable(R.drawable.ip)).setContent(R.id.main_scrollview_ip_route_info));
+//		mTabHost.addTab(mTabHost.newTabSpec("tab_proc").setIndicator("proc", getResources().getDrawable(R.drawable.route)).setContent(R.id.main_scrollview_proc_info));
+//		mTabHost.addTab(mTabHost.newTabSpec("tab_netstat").setIndicator("netstat", getResources().getDrawable(R.drawable.netlist)).setContent(R.id.main_scrollview_netstat_info));
+//		mTabHost.addTab(mTabHost.newTabSpec("tab_ps").setIndicator("ps", getResources().getDrawable(R.drawable.ps)).setContent(R.id.main_scrollview_ps_info));
+//		mTabHost.addTab(mTabHost.newTabSpec("tab_other").setIndicator("other", getResources().getDrawable(R.drawable.other)).setContent(R.id.main_scrollview_other_info));
+//		mTabHost.setCurrentTab(0);
+
 	}
 
 	private void showSelectionDialogue(){
@@ -452,6 +475,7 @@ public class Main extends SherlockActivity {
 
 			}}).setPositiveButton(getString(R.string.ok), new
 					DialogInterface.OnClickListener() {
+				@SuppressWarnings("deprecation")
 				public void onClick(DialogInterface dialog, int	whichButton) { /* User clicked Yes so do some stuff */
 					threadBundle = new Bundle();
 					threadBundle.putSerializable("actions", action_list);
