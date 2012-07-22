@@ -10,6 +10,7 @@ import java.util.Date;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
@@ -250,5 +251,19 @@ public class UsefulBits {
 		} else {
 			Log.d(TAG, "^ context is null...");
 		}
+	}
+	
+	public void shareResults(String subject, String text){
+		Intent t = new Intent(Intent.ACTION_SEND);
+		 
+		//String text = fldInfo.getText().toString();
+		//String subject =  getString(R.string.text_under_the_hood)  + " @ " + timeDate;
+		
+		t.setType("text/plain");
+		t.putExtra(Intent.EXTRA_TEXT, text);
+		t.putExtra(Intent.EXTRA_SUBJECT, subject);
+		t.addCategory(Intent.CATEGORY_DEFAULT);
+		Intent share = Intent.createChooser(t, c.getString(R.string.label_share_dialogue_title));
+		c.startActivity(share);		
 	}
 }

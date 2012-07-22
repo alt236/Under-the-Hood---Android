@@ -7,9 +7,11 @@
         android:showAsAction="always|withText"
         android:title="@string/label_menu_refresh"/>
     <item
-        android:id="@+id/menu_export"
-        android:icon="@android:drawable/ic_menu_upload"
-        android:title="@string/label_menu_export"/>
+        android:id="@+id/menu_share"
+        android:title="@string/label_menu_share"/>
+    <item
+        android:id="@+id/menu_to_sd"
+        android:title="@string/label_menu_save_to_sd"/>    
     <item
         android:id="@+id/menu_increase_font_size"
         android:title="@string/label_menu_font_size_plus"/>

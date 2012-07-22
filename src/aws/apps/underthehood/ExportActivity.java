@@ -27,7 +27,7 @@ public class ExportActivity extends SherlockActivity {
 		Log.d(TAG, "* Intent started");
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.export);
+		setContentView(R.layout.activity_export);
 		Bundle extras = getIntent().getExtras();
 		uB = new UsefulBits(getApplicationContext());
 		

@@ -1,5 +1,6 @@
 package aws.apps.underthehood;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,6 +16,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -43,7 +45,7 @@ public class Main extends SherlockActivity {
 	final String TAG =  this.getClass().getName();
 
 	private TabHost mTabHost;
-	private String TimeDate="";
+	private String mTimeDate="";
 	private UsefulBits uB;
 	private TableLayout tableIpconfig;
 	private TableLayout tableIpRoute;
@@ -226,7 +228,7 @@ public class Main extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "^ Intent Started");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.activity_main);
 
 		uB = new UsefulBits(this);
 
@@ -271,6 +273,32 @@ public class Main extends SherlockActivity {
 		return true;
 	}
 
+	
+	private String collectDataForExport(){
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(getString(R.string.text_under_the_hood)  + " @ " + mTimeDate +"\n\n");
+		
+		sb.append("---------------------------------\n\n");
+		
+		sb.append(uB.tableToString(tableDeviceInfo));
+		sb.append(getString(R.string.label_ipconfig_info) + "\n");
+		sb.append(uB.tableToString(tableIpconfig));
+		sb.append(getString(R.string.label_ip_route_info) + "\n");
+		sb.append(uB.tableToString(tableIpRoute));
+		sb.append(getString(R.string.label_proc_info) + "\n");
+		sb.append(uB.tableToString(tableProc));
+		sb.append(getString(R.string.label_netlist_info) + "\n");
+		sb.append(uB.tableToString(tableNetstat));
+		sb.append(getString(R.string.label_ps_info) + "\n");
+		sb.append(uB.tableToString(tablePs));
+		sb.append(getString(R.string.label_other_info) + "\n");
+		sb.append(uB.tableToString(tableOther));
+		
+		sb.append("\n\n---------------------------------");
+		return sb.toString().trim();
+	}
+	
 	/** Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -280,28 +308,21 @@ public class Main extends SherlockActivity {
 			uB.showAboutDialogue();
 			return true;
 		}
-		else if(R.id.menu_export == id ){
-			Intent myIntent = new Intent();
-			String export_text = "";
-
-			export_text += uB.tableToString(tableDeviceInfo);
-			export_text += getString(R.string.label_ipconfig_info) + "\n";
-			export_text += uB.tableToString(tableIpconfig);
-			export_text += getString(R.string.label_ip_route_info) + "\n";
-			export_text += uB.tableToString(tableIpRoute);
-			export_text += getString(R.string.label_proc_info) + "\n";
-			export_text += uB.tableToString(tableProc);
-			export_text += getString(R.string.label_netlist_info) + "\n";
-			export_text += uB.tableToString(tableNetstat);
-			export_text += getString(R.string.label_ps_info) + "\n";
-			export_text += uB.tableToString(tablePs);
-			export_text += getString(R.string.label_other_info) + "\n";
-			export_text += uB.tableToString(tableOther);			
-			myIntent.putExtra("info", export_text);
-			myIntent.putExtra("time", TimeDate);
-			myIntent.setClassName(getPackageName(),getPackageName() + ".ExportActivity");
-			startActivity(myIntent);
+		else if(R.id.menu_share == id ){
+			uB.shareResults(
+					getString(R.string.text_under_the_hood)  + " @ " + mTimeDate, 
+					collectDataForExport());
 			return true;
+		}
+		else if(R.id.menu_to_sd == id){
+			try {
+				File folder = Environment.getExternalStorageDirectory();
+				String filename = "deviceinfo_" + mTimeDate + ".txt";
+				String contents = collectDataForExport();
+				uB.saveToFile(filename, folder, contents);
+			} catch (Exception e) {
+				Log.e(TAG, "^ " + e.getMessage());
+			}
 		}
 		else if(R.id.menu_increase_font_size == id ){
 			fontSizeIncrease();
@@ -332,7 +353,7 @@ public class Main extends SherlockActivity {
 		saved.populateIp(tableIpRoute);
 		saved.populateIpConfig(tableIpconfig);
 		saved.setAreWeRooted(device_rooted);
-		saved.setDateTime(TimeDate);
+		saved.setDateTime(mTimeDate);
 
 		return saved;
 	}
@@ -344,8 +365,8 @@ public class Main extends SherlockActivity {
 		LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 
 		if (data == null) { // We need to do everything from scratch!
-			TimeDate = uB.formatDateTime("yyyy-MM-dd-HHmmssZ", new Date());
-			lblTimeDate.setText(TimeDate);
+			mTimeDate = uB.formatDateTime("yyyy-MM-dd-HHmmssZ", new Date());
+			lblTimeDate.setText(mTimeDate);
 
 			device_rooted = checkIfSu();
 			mDataTextSize = getResources().getDimension(R.dimen.terminal_data_font);
@@ -353,10 +374,10 @@ public class Main extends SherlockActivity {
 			showSelectionDialogue();
 		} else {
 			final SavedData saved = (SavedData) data;
-			TimeDate = saved.getDateTime();
+			mTimeDate = saved.getDateTime();
 			device_rooted = saved.getAreWeRooted();
 
-			lblTimeDate.setText(TimeDate);
+			lblTimeDate.setText(mTimeDate);
 			mDataTextSize = saved.getTextSize();
 
 			listToTable(saved.gettIpConfig(), tableIpconfig, lp);

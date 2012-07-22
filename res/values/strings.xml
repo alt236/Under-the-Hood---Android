@@ -33,7 +33,8 @@
     
     <string name="label_menu_refresh">Refresh</string>
 	<string name="label_menu_about">About</string>
-	<string name="label_menu_export">Export</string>
+	<string name="label_menu_share">Share</string>
+	<string name="label_menu_save_to_sd">Save to SD</string>
 	<string name="label_menu_font_size_plus">Increase Font</string>
 	<string name="label_menu_font_size_minus">Decrease Font</string>
 	
