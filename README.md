@@ -21,7 +21,7 @@ Changelog
 * v0.0.1: First public release.
 * v0.0.2: Font size change buttons in menu.
 * v0.0.3: Added "ip route show" and "ip -f inet6 route show", font size increase.
-*v0.0.4: Threaded the command execution, added execution choice dialogue.
+* v0.0.4: Threaded the command execution, added execution choice dialogue.
 * v0.0.5: Fixed "Other" tab, changed required Android version to 1.5 (it was 2.1), added a bit more information.
 * v0.0.6: Changed required version to 1.6 as 1.5 broke large screens, changed icon, added more information.
 * v0.0.7: Added parsing of /proc, rearranged tab contents.
@@ -46,6 +46,6 @@ Licensed under the Apache License 2.0: [http://www.apache.org/licenses/LICENSE-2
 	
 Links
 -----------
-* Market link: [https://market.android.com/details?id=aws.apps.androidDrawables]()
+* Market link: [https://play.google.com/store/apps/details?id=aws.apps.underthehood]()
 * Webpage: [http://aschillings.co.uk/html/android_drawables.html]()
-* Github: [https://github.com/alt236/Android-Drawables---Android]()
+* Github: [https://github.com/alt236/Under-the-Hood---Android]()
