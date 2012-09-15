@@ -47,5 +47,5 @@ Licensed under the Apache License 2.0: [http://www.apache.org/licenses/LICENSE-2
 Links
 -----------
 * Market link: [https://play.google.com/store/apps/details?id=aws.apps.underthehood]()
-* Webpage: [http://aschillings.co.uk/html/android_drawables.html]()
+* Webpage: [http://aschillings.co.uk/html/under_the_hood.html]()
 * Github: [https://github.com/alt236/Under-the-Hood---Android]()
