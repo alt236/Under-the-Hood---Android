@@ -33,41 +33,39 @@ public class SavedData {
 	private List<String>  tNetlist = new ArrayList<String>();
 	private List<String>  tPs = new ArrayList<String>();
 	private List<String>  tOther = new ArrayList<String>();
+	private List<String>  tSysProp = new ArrayList<String>();
 	
 	private String dateTime = "";
 	private boolean areWeRooted = false;
 	private int textSize;
 	
-	public void setTextSize(int size) {
-		textSize = size;
-	}
-	
-	public int getTextSize() {
-		return textSize;
+	public boolean getAreWeRooted() {
+		return areWeRooted;
 	}
 	
 	public String getDateTime() {
 		return dateTime;
 	}
-
-
-	public void setDateTime(String dateTime) {
-		this.dateTime = dateTime;
+	
+	public List<String> gettDf() {
+		return tOther;
 	}
 
+	public List<String> gettSysProp() {
+		return tSysProp;
+	}
+
+	public int getTextSize() {
+		return textSize;
+	}
 
 	public List<String> gettIp() {
 		return tIp;
 	}
 
-	public List<String> gettRoute() {
-		return tRoute;
-	}
-
 	public List<String> gettIpConfig() {
 		return tIpConfig;
 	}
-
 
 	public List<String> gettNetlist() {
 		return tNetlist;
@@ -79,26 +77,31 @@ public class SavedData {
 	}
 
 
-	public List<String> gettDf() {
-		return tOther;
-	}
-
-	public boolean getAreWeRooted() {
-		return areWeRooted;
+	public List<String> gettRoute() {
+		return tRoute;
 	}
 
 
-	public void setAreWeRooted(boolean areWeRooted) {
-		this.areWeRooted = areWeRooted;
-	}
-	
-	
 	public void populateIp(TableLayout t){
 		tIp = tableToList(t);
 	}
-	
+
 	public void populateIpConfig(TableLayout t){
 		tIpConfig = tableToList(t);
+	}
+
+
+	public void populateNetlist(TableLayout t){
+		tNetlist = tableToList(t);
+	}
+	
+	
+	public void populateOther(TableLayout t){
+		tOther = tableToList(t);
+	}
+	
+	public void populatePs(TableLayout t){
+		tPs = tableToList(t);
 	}
 	
 	
@@ -106,19 +109,23 @@ public class SavedData {
 		tRoute = tableToList(t);
 	}
 	
-	public void populateNetlist(TableLayout t){
-		tNetlist = tableToList(t);
+	public void populateSysProp(TableLayout t) {
+		tSysProp = tableToList(t);
 	}
 	
-	public void populatePs(TableLayout t){
-		tPs = tableToList(t);
+	public void setAreWeRooted(boolean areWeRooted) {
+		this.areWeRooted = areWeRooted;
 	}
 	
-	public void populateOther(TableLayout t){
-		tOther = tableToList(t);
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
 	}
 	
 	
+	public void setTextSize(int size) {
+		textSize = size;
+	}
+
 	private List<String> tableToList(TableLayout t){
 		List<String>  l = new ArrayList<String>();
 		

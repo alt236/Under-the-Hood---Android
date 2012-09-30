@@ -70,6 +70,7 @@ public class Main extends SherlockActivity {
 	private TableLayout tableNetstat;
 	private TableLayout tableProc;
 	private TableLayout tableDeviceInfo;
+	private TableLayout tableSysProp;
 	private TextView lblRootStatus;
 	private TextView lblTimeDate;
 	private TextView lblDevice;	
@@ -90,24 +91,27 @@ public class Main extends SherlockActivity {
 			case ExecuteThread.WORK_COMPLETED:
 				Log.d(TAG, "^ Worker Thread: WORK_COMPLETED");
 
-				l = (ArrayList<String>) msg.getData().getSerializable("other");
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_OTHER);
 				listToTable(l, tableOther, lp);
 
-				l = (ArrayList<String>) msg.getData().getSerializable("ip_route");
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_IP_ROUTE);
 				listToTable(l, tableIpRoute, lp);
 
-				l = (ArrayList<String>) msg.getData().getSerializable("ipconfig");
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_IPCONFIG);
 				listToTable(l, tableIpconfig, lp);
 
-				l = (ArrayList<String>) msg.getData().getSerializable("netstat");
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_NETSTAT);
 				listToTable(l, tableNetstat, lp);
 
-				l = (ArrayList<String>) msg.getData().getSerializable("ps");
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_PS);
 				listToTable(l, tablePs, lp);
 
-				l = (ArrayList<String>) msg.getData().getSerializable("proc");
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_PROC);
 				listToTable(l, tableProc, lp);
 
+				l = (ArrayList<String>) msg.getData().getSerializable(ExecuteThread.MSG_SYSPROP);
+				listToTable(l, tableSysProp, lp);
+				
 				executeThread.setState(ExecuteThread.STATE_DONE);
 				removeDialog(DIALOG_EXECUTING);
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
@@ -166,7 +170,8 @@ public class Main extends SherlockActivity {
 		tableProc.removeAllViews();
 		tableOther.removeAllViews();
 		tablePs.removeAllViews();
-
+		tableSysProp.removeAllViews();
+		
 		lblRootStatus.setText("");
 		lblTimeDate.setText("");
 	}
@@ -182,6 +187,7 @@ public class Main extends SherlockActivity {
 		changeFontSize(tableProc, mDataTextSize);
 		changeFontSize(tableOther, mDataTextSize);
 		changeFontSize(tablePs, mDataTextSize);
+		changeFontSize(tableSysProp, mDataTextSize);
 	}
 
 	public void fontSizeIncrease(){
@@ -197,6 +203,7 @@ public class Main extends SherlockActivity {
 		changeFontSize(tableProc, mDataTextSize);
 		changeFontSize(tableOther, mDataTextSize);
 		changeFontSize(tablePs, mDataTextSize);
+		changeFontSize(tableSysProp, mDataTextSize);
 	}
 
 	private void listToTable(List<String> l, TableLayout t, LayoutParams lp){
@@ -299,9 +306,10 @@ public class Main extends SherlockActivity {
 		sb.append(uB.tableToString(tableNetstat));
 		sb.append(getString(R.string.label_ps_info) + "\n");
 		sb.append(uB.tableToString(tablePs));
+		sb.append(getString(R.string.label_sys_prop) + "\n");
+		sb.append(uB.tableToString(tableSysProp));
 		sb.append(getString(R.string.label_other_info) + "\n");
 		sb.append(uB.tableToString(tableOther));
-		
 		sb.append("\n\n---------------------------------");
 		return sb.toString().trim();
 	}
@@ -359,6 +367,7 @@ public class Main extends SherlockActivity {
 		saved.populateRoute(tableProc);
 		saved.populateIp(tableIpRoute);
 		saved.populateIpConfig(tableIpconfig);
+		saved.populateSysProp(tableSysProp);
 		saved.setAreWeRooted(device_rooted);
 		saved.setDateTime(mTimeDate);
 
@@ -394,6 +403,7 @@ public class Main extends SherlockActivity {
 			listToTable(saved.gettDf(),tableOther, lp);
 			listToTable(saved.gettPs(),tablePs, lp);
 			listToTable(saved.gettNetlist(),tableNetstat, lp);
+			listToTable(saved.gettPs(), tableSysProp, lp);
 		}
 
 		if(device_rooted){
@@ -446,11 +456,12 @@ public class Main extends SherlockActivity {
 		mAdapter.addView(v, "ps");
 
 		v = gui.getScrollableTable();
+		tableSysProp = (TableLayout) v.findViewById(R.id.table);
+		mAdapter.addView(v, "prop");
+		
+		v = gui.getScrollableTable();
 		tableOther = (TableLayout) v.findViewById(R.id.table);
 		mAdapter.addView(v, "other");
-
-
-		
 		
 		mViewPager.setAdapter(mAdapter);
 		mIndicator.setViewPager(mViewPager);

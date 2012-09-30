@@ -24,31 +24,33 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import aws.apps.underthehood.R;
-import aws.apps.underthehood.ui.GuiCreation;
 
 public class ExecuteThread extends Thread {
-	final String TAG =  this.getClass().getName();
-	Handler mHandler;
-	Context c;
-	UsefulBits uB;
-	GuiCreation gui;
+	public final static String MSG_IPCONFIG = "msg_ipconfig";
+	public final static String MSG_IP_ROUTE = "msg_ip_route";
+	public final static String MSG_PROC = "msg_proc";
+	public final static String MSG_OTHER = "msg_other";
+	public final static String MSG_PS = "msg_ps";
+	public final static String MSG_NETSTAT = "msg_netstat";
+	public final static String MSG_SYSPROP = "msg_sysprop";
 	public final static int STATE_DONE = 0;
 	public final static int STATE_RUNNING = 1;
 
 	public final static int WORK_COMPLETED = 50;
 	public final static int WORK_INTERUPTED = 51;
 	
-	int mState;
-	boolean isRooted;
-	Hashtable<CharSequence, Boolean> actions;
+	private final String TAG =  this.getClass().getName();
+	private Handler mHandler;
+	private Context c;
+	private int mState;
+	private boolean isRooted;
+	private Hashtable<CharSequence, Boolean> actions;
 
 	@SuppressWarnings("unchecked")
 	public ExecuteThread(Handler h, Context ctx, Bundle b) {//Hashtable<CharSequence, Boolean> action_list) {
 		//super();
 		this.mHandler = h;
 		this.c = ctx;
-		this.uB = new UsefulBits(c);
-		this.gui = new GuiCreation(c);
 		this.actions = (Hashtable<CharSequence, Boolean>) b.get("actions");
 		this.isRooted = checkIfSu();
 	}
@@ -65,13 +67,14 @@ public class ExecuteThread extends Thread {
 				Thread.sleep(100);
 				b.clear();
 				
-				b.putStringArrayList("ipconfig", executeIpconfig(actions));
-				b.putStringArrayList("ip_route", executeIpRoute(actions));
-				b.putStringArrayList("proc", executeProc(actions));
-				b.putStringArrayList("other", executeOther(actions));
-				b.putStringArrayList("ps", executePs(actions));
-				b.putStringArrayList("netstat", executeNetstat(actions));
-
+				b.putStringArrayList(MSG_IPCONFIG, executeIpconfig(actions));
+				b.putStringArrayList(MSG_IP_ROUTE, executeIpRoute(actions));
+				b.putStringArrayList(MSG_PROC, executeProc(actions));
+				b.putStringArrayList(MSG_OTHER, executeOther(actions));
+				b.putStringArrayList(MSG_PS, executePs(actions));
+				b.putStringArrayList(MSG_NETSTAT, executeNetstat(actions));
+				b.putStringArrayList(MSG_SYSPROP, executeGetProp(actions));
+				
 				msg = new Message();
 				msg.what = WORK_COMPLETED;
 				msg.setData(b);
@@ -210,6 +213,29 @@ public class ExecuteThread extends Thread {
 		return l;
 	}
 
+	private  ArrayList<String>  executeGetProp(Hashtable<CharSequence, Boolean> action_list){
+		ArrayList<String> l = new ArrayList<String>();
+		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_product_version));
+		l.add(execute(R.string.shell_getprop_product_version, action_list, false));
+		
+		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_build_fingerprint));
+		l.add(execute(R.string.shell_getprop_build_fingerprint, action_list, false));
+		
+		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_gsm_baseband));
+		l.add(execute(R.string.shell_getprop_gsm_baseband, action_list, false));
+
+		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_execution_mode));
+		l.add(execute(R.string.shell_getprop_vm_execution_mode, action_list, false));
+		
+		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_heapsize));
+		l.add(execute(R.string.shell_getprop_vm_heapsize, action_list, false));
+		
+		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_lcd_density));
+		l.add(execute(R.string.shell_getprop_lcd_density, action_list, false));
+		
+		return l;
+	}
+	
 	private  ArrayList<String>  executeOther(Hashtable<CharSequence, Boolean> action_list){
 		ArrayList<String> l = new ArrayList<String>();
 
@@ -225,26 +251,8 @@ public class ExecuteThread extends Thread {
 		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_lsmod));
 		l.add(execute(R.string.shell_lsmod, action_list, isRooted));
 		
-		l.add(c.getString(R.string.seperator_identifier) + "build.prop");
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_product_version));
-		l.add(execute(R.string.shell_getprop_product_version, action_list, isRooted));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_build_fingerprint));
-		l.add(execute(R.string.shell_getprop_build_fingerprint, action_list, isRooted));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_gsm_baseband));
-		l.add(execute(R.string.shell_getprop_gsm_baseband, action_list, isRooted));
-
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_execution_mode));
-		l.add(execute(R.string.shell_getprop_vm_execution_mode, action_list, isRooted));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_heapsize));
-		l.add(execute(R.string.shell_getprop_vm_heapsize, action_list, isRooted));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_lcd_density));
-		l.add(execute(R.string.shell_getprop_lcd_density, action_list, isRooted));
-		
+		//l.add(c.getString(R.string.seperator_identifier) + "build.prop");
+				
 		return l;
 	}
 

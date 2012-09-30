@@ -42,12 +42,13 @@
 	<string name="label_root_status">Root Status:</string>
 	<string name="label_time">Time:</string>
 	
-	<string name="label_ipconfig_info">___ipconfig________</string>
-	<string name="label_ip_route_info">___ip_n_route______</string>
-	<string name="label_proc_info">___proc____________</string>
-	<string name="label_netlist_info">___netlist_________</string>
-	<string name="label_ps_info">___ps______________</string>
-	<string name="label_other_info">___other___________</string>
+	<string name="label_ipconfig_info">___ipconfig___________</string>
+	<string name="label_ip_route_info">___ip_n_route_________</string>
+	<string name="label_proc_info">___proc_______________</string>
+	<string name="label_netlist_info">___netlist____________</string>
+	<string name="label_ps_info">___ps_________________</string>
+	<string name="label_other_info">___other______________</string>
+    <string name="label_sys_prop">___system_properties__</string>
 
 	<string name="root_status_ok">Device Rooted</string>
 	<string name="root_status_not_ok">Could not get root?</string>

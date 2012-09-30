@@ -26,12 +26,12 @@
     	<item>@string/shell_cat_proc_net_arp</item>
     	<item>@string/shell_cat_proc_net_wireless</item>
     	
-    	<item>@string/shell_getprop_product_version</item>
+		<item>@string/shell_getprop_product_version</item>
     	<item>@string/shell_getprop_build_fingerprint</item>
     	<item>@string/shell_getprop_gsm_baseband</item>
 		<item>@string/shell_getprop_vm_execution_mode</item>       	
     	<item>@string/shell_getprop_vm_heapsize</item>   	
-    	<item>@string/shell_getprop_lcd_density</item> 
+    	<item>@string/shell_getprop_lcd_density</item>
      		    	
     </array>
 
@@ -62,10 +62,11 @@
 	<string name="shell_cat_proc_net_wireless">cat /proc/net/wireless</string>
 	
 	<!-- Getprop  -->
+
 	<string name="shell_getprop_product_version">getprop ro.product.version</string>
 	<string name="shell_getprop_build_fingerprint">getprop ro.build.fingerprint</string>
 	<string name="shell_getprop_gsm_baseband">getprop gsm.version.baseband</string>
 	<string name="shell_getprop_vm_heapsize">getprop dalvik.vm.heapsize</string>
 	<string name="shell_getprop_lcd_density">getprop ro.sf.lcd_density</string>
-	<string name="shell_getprop_vm_execution_mode">getprop dalvik.vm.execution-mode</string>	
+	<string name="shell_getprop_vm_execution_mode">getprop dalvik.vm.execution-mode</string>
 </resources>
