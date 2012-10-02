@@ -404,7 +404,7 @@ public class Main extends SherlockActivity {
 			listToTable(saved.gettDf(),tableOther, lp);
 			listToTable(saved.gettPs(),tablePs, lp);
 			listToTable(saved.gettNetlist(),tableNetstat, lp);
-			listToTable(saved.gettPs(), tableSysProp, lp);
+			listToTable(saved.gettSysProp(), tableSysProp, lp);
 		}
 
 		if(device_rooted){
