@@ -218,7 +218,7 @@ public class Main extends SherlockActivity {
 			for (int i=0; i < l.size();i++){
 				chr = l.get(i).substring(0, 1);
 
-				if ( chr.equals("#") || chr.equals("$") ) {
+				if ( chr.equals("#") || chr.equals("$") || chr.equals(">")) {
 					t.addView(gui.createTitleRow(l.get(i)),lp);
 				} else if (chr.equals(seperator)){
 					t.addView(gui.createSeperatorRow(l.get(i)),lp);

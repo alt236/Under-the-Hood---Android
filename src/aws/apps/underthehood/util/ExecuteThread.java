@@ -15,8 +15,11 @@
  ******************************************************************************/
 package aws.apps.underthehood.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Scanner;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -215,25 +218,64 @@ public class ExecuteThread extends Thread {
 
 	private  ArrayList<String>  executeGetProp(Hashtable<CharSequence, Boolean> action_list){
 		ArrayList<String> l = new ArrayList<String>();
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_product_version));
-		l.add(execute(R.string.shell_getprop_product_version, action_list, false));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_build_fingerprint));
-		l.add(execute(R.string.shell_getprop_build_fingerprint, action_list, false));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_gsm_baseband));
-		l.add(execute(R.string.shell_getprop_gsm_baseband, action_list, false));
 
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_execution_mode));
-		l.add(execute(R.string.shell_getprop_vm_execution_mode, action_list, false));
+	    File file = new File("/system/build.prop");
+	    StringBuilder fileContents = new StringBuilder((int)file.length());
+	    Scanner scanner;
+		try {
+			scanner = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_product_version));
+			l.add(execute(R.string.shell_getprop_product_version, action_list, false));
+			
+			l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_build_fingerprint));
+			l.add(execute(R.string.shell_getprop_build_fingerprint, action_list, false));
+			
+			l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_gsm_baseband));
+			l.add(execute(R.string.shell_getprop_gsm_baseband, action_list, false));
+	
+			l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_execution_mode));
+			l.add(execute(R.string.shell_getprop_vm_execution_mode, action_list, false));
+			
+			l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_heapsize));
+			l.add(execute(R.string.shell_getprop_vm_heapsize, action_list, false));
+			
+			l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_lcd_density));
+			l.add(execute(R.string.shell_getprop_lcd_density, action_list, false));
+			
+			return l;
+		}
 		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_vm_heapsize));
-		l.add(execute(R.string.shell_getprop_vm_heapsize, action_list, false));
-		
-		l.add(getPromptSymbol(isRooted) +  c.getString(R.string.shell_getprop_lcd_density));
-		l.add(execute(R.string.shell_getprop_lcd_density, action_list, false));
-		
-		return l;
+	    try {
+	    	String line;
+	    	String lineArray[];
+	    	String tmp;
+	        while(scanner.hasNextLine()) {
+	        	line = scanner.nextLine();
+	        	
+	        	if(!line.startsWith("#")){
+	        		lineArray = line.split("=");
+	        		
+	        		if(lineArray.length >= 2){
+	        			tmp = "";
+	        			l.add("> " +  lineArray[0]);
+	        			for(int i = 1; i < lineArray.length; i ++){
+	        				if(tmp.length()>0){
+	        					tmp += "=" + lineArray[i];
+	        				}else{
+	        					tmp = lineArray[i];
+	        				}
+	        				
+	        				l.add(tmp.trim());
+	        			}
+	        		}
+	        	}
+	        }
+	    } finally {
+	        scanner.close();
+	    }
+		  
+	    return l;
 	}
 	
 	private  ArrayList<String>  executeOther(Hashtable<CharSequence, Boolean> action_list){
