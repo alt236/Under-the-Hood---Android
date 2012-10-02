@@ -388,7 +388,8 @@ public class Main extends SherlockActivity {
 			device_rooted = checkIfSu();
 			mDataTextSize = getResources().getDimension(R.dimen.terminal_data_font);
 
-			showSelectionDialogue();
+			//showSelectionDialogue();
+			executeCommands();
 		} else {
 			final SavedData saved = (SavedData) data;
 			mTimeDate = saved.getDateTime();
@@ -421,7 +422,8 @@ public class Main extends SherlockActivity {
 	/** Convenience function combining clearInfo and getInfo */
 	public void refreshInfo() {
 		clearInfo();
-		showSelectionDialogue();
+		//showSelectionDialogue();
+		executeCommands();
 	}
 
 
@@ -465,56 +467,65 @@ public class Main extends SherlockActivity {
 		
 		mViewPager.setAdapter(mAdapter);
 		mIndicator.setViewPager(mViewPager);
-//		
-//		
-//		mTabHost.addTab(mTabHost.newTabSpec("tab_ipconfig").setIndicator("netcfg / ipconfig", getResources().getDrawable(R.drawable.ipconfig)).setContent(R.id.main_scrollview_ipconfig_info));
-//		mTabHost.addTab(mTabHost.newTabSpec("tab_ip_route").setIndicator("ip", getResources().getDrawable(R.drawable.ip)).setContent(R.id.main_scrollview_ip_route_info));
-//		mTabHost.addTab(mTabHost.newTabSpec("tab_proc").setIndicator("proc", getResources().getDrawable(R.drawable.route)).setContent(R.id.main_scrollview_proc_info));
-//		mTabHost.addTab(mTabHost.newTabSpec("tab_netstat").setIndicator("netstat", getResources().getDrawable(R.drawable.netlist)).setContent(R.id.main_scrollview_netstat_info));
-//		mTabHost.addTab(mTabHost.newTabSpec("tab_ps").setIndicator("ps", getResources().getDrawable(R.drawable.ps)).setContent(R.id.main_scrollview_ps_info));
-//		mTabHost.addTab(mTabHost.newTabSpec("tab_other").setIndicator("other", getResources().getDrawable(R.drawable.other)).setContent(R.id.main_scrollview_other_info));
-//		mTabHost.setCurrentTab(0);
-
 	}
 
-	private void showSelectionDialogue(){
+	@SuppressWarnings("deprecation")
+	private void executeCommands(){
 		final CharSequence[] cb_items = getResources().getTextArray(R.array.shell_commands);
-		final Hashtable<CharSequence, Boolean> action_list = new Hashtable<CharSequence, Boolean>();
+		final Hashtable<CharSequence, Boolean> action_table = new Hashtable<CharSequence, Boolean>();
 
 		boolean[] cb_item_state = new boolean[cb_items.length];
 
 		Arrays.sort(cb_items, 0, cb_items.length);
 		for (int i=0;i < cb_items.length; i ++ ){
 			cb_item_state[i] = true;
-			action_list.put(cb_items[i], cb_item_state[i]);
+			action_table.put(cb_items[i], true);
 		}
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.dialogue_title_select_commands));
-		builder.setMultiChoiceItems(cb_items, cb_item_state, new DialogInterface.OnMultiChoiceClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-				/* Used has clicked a check box */
-
-				action_list.put(cb_items[which], isChecked);
-
-			}}).setPositiveButton(getString(R.string.ok), new
-					DialogInterface.OnClickListener() {
-				@SuppressWarnings("deprecation")
-				public void onClick(DialogInterface dialog, int	whichButton) { /* User clicked Yes so do some stuff */
-					threadBundle = new Bundle();
-					threadBundle.putSerializable("actions", action_list);
-					mLockScreenRotation();
-					showDialog(DIALOG_EXECUTING);				
-				}
-			})
-			.setNegativeButton(getString(R.string.cancel), new
-					DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int	whichButton) { /* User clicked No so do some stuff */
-				}
-			}) ;
-		AlertDialog alert = builder.create();
-		alert.show();
+		
+		threadBundle = new Bundle();
+		threadBundle.putSerializable("actions", action_table);
+		mLockScreenRotation();
+		showDialog(DIALOG_EXECUTING);
 	}
+	
+//	private void showSelectionDialogue(){
+//		final CharSequence[] cb_items = getResources().getTextArray(R.array.shell_commands);
+//		final Hashtable<CharSequence, Boolean> action_table = new Hashtable<CharSequence, Boolean>();
+//
+//		boolean[] cb_item_state = new boolean[cb_items.length];
+//
+//		Arrays.sort(cb_items, 0, cb_items.length);
+//		for (int i=0;i < cb_items.length; i ++ ){
+//			cb_item_state[i] = true;
+//			action_table.put(cb_items[i], cb_item_state[i]);
+//		}
+//
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setTitle(getString(R.string.dialogue_title_select_commands));
+//		builder.setMultiChoiceItems(cb_items, cb_item_state, new DialogInterface.OnMultiChoiceClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+//				/* Used has clicked a check box */
+//
+//				action_table.put(cb_items[which], isChecked);
+//
+//			}}).setPositiveButton(getString(R.string.ok), new
+//					DialogInterface.OnClickListener() {
+//				@SuppressWarnings("deprecation")
+//				public void onClick(DialogInterface dialog, int	whichButton) { /* User clicked Yes so do some stuff */
+//					threadBundle = new Bundle();
+//					threadBundle.putSerializable("actions", action_table);
+//					mLockScreenRotation();
+//					showDialog(DIALOG_EXECUTING);				
+//				}
+//			})
+//			.setNegativeButton(getString(R.string.cancel), new
+//					DialogInterface.OnClickListener() {
+//				public void onClick(DialogInterface dialog, int	whichButton) { /* User clicked No so do some stuff */
+//				}
+//			}) ;
+//		AlertDialog alert = builder.create();
+//		alert.show();
+//	}
 }
