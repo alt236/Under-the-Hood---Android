@@ -57,9 +57,6 @@ public class Main extends AppCompatActivity {
     private static final int DIALOG_EXECUTING = 1;
     final String TAG = this.getClass().getName();
 
-    private ViewPagerAdapter mAdapter;
-    private ViewPager mViewPager;
-    private TabPageIndicator mIndicator;
     private String mTimeDate = "";
     private UsefulBits uB;
     private TableLayout tableIpconfig;
@@ -78,10 +75,10 @@ public class Main extends AppCompatActivity {
     private GuiCreation gui;
     private ExecuteThread executeThread;
     final Handler handler = new Handler() {
-        @SuppressWarnings({"unchecked", "deprecation",})
+        @SuppressWarnings({"unchecked",})
         public void handleMessage(Message msg) {
             final LayoutParams lp = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            ArrayList<String> l = new ArrayList<String>();
+            ArrayList<String> l = new ArrayList<>();
             switch (msg.what) {
 
                 case ExecuteThread.WORK_COMPLETED:
@@ -121,7 +118,6 @@ public class Main extends AppCompatActivity {
 
         }
     };
-    private ProgressDialog executeDialog;
     private Bundle threadBundle;
 
     private void changeFontSize(TableLayout t, float fontSize) {
@@ -269,10 +265,10 @@ public class Main extends AppCompatActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DIALOG_EXECUTING:
-                executeDialog = new ProgressDialog(this);
+                final ProgressDialog executeDialog = new ProgressDialog(this);
                 executeDialog.setMessage(getString(R.string.dialogue_text_please_wait));
 
-                executeThread = new ExecuteThread(handler, this, threadBundle);
+                executeThread = new ExecuteThread(handler, getResources(), threadBundle);
                 executeThread.start();
                 return executeDialog;
             default:
@@ -292,7 +288,7 @@ public class Main extends AppCompatActivity {
 
 
     private String collectDataForExport() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append(getString(R.string.text_under_the_hood) + " @ " + mTimeDate + "\n\n");
 
@@ -380,7 +376,6 @@ public class Main extends AppCompatActivity {
     /**
      * Retrieves and displays info
      */
-    @SuppressWarnings("deprecation")
     private void populateInfo() {
         //HashMap<Integer, Boolean> actionMap) {
         final Object data = getLastNonConfigurationInstance();
@@ -436,9 +431,9 @@ public class Main extends AppCompatActivity {
 
     /////////////////////////////////////////////
     private void setupTabs() {
-        mAdapter = new ViewPagerAdapter();
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
+        final ViewPagerAdapter mAdapter = new ViewPagerAdapter();
+        final ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
+        final TabPageIndicator mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
 
         tableDeviceInfo = (TableLayout) findViewById(R.id.main_table_device_info);
 
@@ -476,10 +471,9 @@ public class Main extends AppCompatActivity {
         mIndicator.setViewPager(mViewPager);
     }
 
-    @SuppressWarnings("deprecation")
     private void executeCommands() {
         final CharSequence[] cb_items = getResources().getTextArray(R.array.shell_commands);
-        final Hashtable<CharSequence, Boolean> action_table = new Hashtable<CharSequence, Boolean>();
+        final Hashtable<CharSequence, Boolean> action_table = new Hashtable<>();
 
         boolean[] cb_item_state = new boolean[cb_items.length];
 

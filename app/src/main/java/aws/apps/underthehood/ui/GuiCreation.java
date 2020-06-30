@@ -16,7 +16,6 @@
 package aws.apps.underthehood.ui;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TableRow;
@@ -30,10 +29,9 @@ public class GuiCreation {
     private final Context mContext;
     private final UsefulBits uB;
     private final LayoutInflater inflater;
-    private View.OnClickListener textViewCopyClickListener;
+    private final View.OnClickListener textViewCopyClickListener;
 
     public GuiCreation(Context context) {
-        super();
         this.mContext = context;
         uB = new UsefulBits(mContext);
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,7 +50,7 @@ public class GuiCreation {
                         msgtext = text;
                     }
                     String message = "'" + msgtext + "' " + mContext.getString(R.string.text_copied);
-                    uB.showToast(message, Toast.LENGTH_SHORT, Gravity.TOP, 0, 0);
+                    uB.showToast(message, Toast.LENGTH_SHORT);
 
                     android.text.ClipboardManager ClipMan = (android.text.ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipMan.setText(text);

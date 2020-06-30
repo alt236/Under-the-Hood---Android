@@ -15,15 +15,11 @@
  ******************************************************************************/
 package aws.apps.underthehood.util;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -36,51 +32,19 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import aws.apps.underthehood.R;
 import aws.apps.underthehood.ui.MyAlertBox;
 
 public class UsefulBits {
     final String TAG = this.getClass().getName();
-    private Context c;
+    private final Context c;
 
     public UsefulBits(Context cntx) {
         Log.d(TAG, "^ Object created");
         c = cntx;
-    }
-
-    public void ShowAlert(String title, String text, String button) {
-        if (button.equals("")) {
-            button = c.getString(R.string.ok);
-        }
-
-        try {
-            AlertDialog.Builder ad = new AlertDialog.Builder(c);
-            ad.setTitle(title);
-            ad.setMessage(text);
-
-            ad.setPositiveButton(button, null);
-            ad.show();
-        } catch (Exception e) {
-            Log.e(TAG, "^ ShowAlert()", e);
-        }
-    }
-
-    public boolean isOnline() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            if (cm != null) {
-                return cm.getActiveNetworkInfo().isConnected();
-            } else {
-                return false;
-            }
-
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     public String getSoftwareInfo(SOFTWARE_INFO info) {
@@ -122,14 +86,8 @@ public class UsefulBits {
     }
 
     public String formatDateTime(String formatString, Date d) {
-        Format formatter = new SimpleDateFormat(formatString);
+        Format formatter = new SimpleDateFormat(formatString, Locale.US);
         return formatter.format(d);
-    }
-
-    public Calendar convertMillisToDate(long millis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        return calendar;
     }
 
     public void saveToFile(String fileName, File directory, String contents) {
@@ -144,25 +102,22 @@ public class UsefulBits {
                     BufferedWriter out = new BufferedWriter(gpxwriter);
                     out.write(contents);
                     out.close();
-                    showToast("Saved to SD as '" + directory.getAbsolutePath() + "/" + fileName + "'",
-                            Toast.LENGTH_SHORT, Gravity.TOP, 0, 0);
+                    showToast("Saved to SD as '" + directory.getAbsolutePath() + "/" + fileName + "'", Toast.LENGTH_SHORT);
                 }
 
             } catch (Exception e) {
-                showToast("Could not write file:\n+ e.getMessage()",
-                        Toast.LENGTH_SHORT, Gravity.TOP, 0, 0);
+                showToast("Could not write file:\n+ e.getMessage()", Toast.LENGTH_SHORT);
                 Log.e(TAG, "^ Could not write file " + e.getMessage());
             }
 
         } else {
-            showToast("No SD card is mounted...", Toast.LENGTH_SHORT, Gravity.TOP, 0, 0);
+            showToast("No SD card is mounted...", Toast.LENGTH_SHORT);
             Log.e(TAG, "^ No SD card is mounted.");
         }
     }
 
-    public void showToast(String message, int duration, int location, int x_offset, int y_offset) {
+    public void showToast(String message, int duration) {
         Toast toast = Toast.makeText(c.getApplicationContext(), message, duration);
-        toast.setGravity(location, x_offset, y_offset);
         toast.show();
     }
 
@@ -228,9 +183,7 @@ public class UsefulBits {
                 + this.getSoftwareInfo(SOFTWARE_INFO.VERSION);
 
         if (c != null) {
-            //MyAlertBox.create(c, text, title, c.getString(android.R.string.ok)).show();
             MyAlertBox.create(c, text, title, c.getString(android.R.string.ok)).show();
-
         } else {
             Log.d(TAG, "^ context is null...");
         }
@@ -239,45 +192,12 @@ public class UsefulBits {
     public void shareResults(String subject, String text) {
         Intent t = new Intent(Intent.ACTION_SEND);
 
-        //String text = fldInfo.getText().toString();
-        //String subject =  getString(R.string.text_under_the_hood)  + " @ " + timeDate;
-
         t.setType("text/plain");
         t.putExtra(Intent.EXTRA_TEXT, text);
         t.putExtra(Intent.EXTRA_SUBJECT, subject);
         t.addCategory(Intent.CATEGORY_DEFAULT);
         Intent share = Intent.createChooser(t, c.getString(R.string.label_share_dialogue_title));
         c.startActivity(share);
-    }
-
-    public static int dipToPixels(int dip, Context c) {
-        int value = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                (float) dip, c.getResources().getDisplayMetrics());
-        return value;
-    }
-
-    public static float dipToPixels(float dip, Context c) {
-        float value = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dip, c.getResources().getDisplayMetrics());
-        return value;
-    }
-
-    public static boolean validateIPv6Address(String address) {
-        try {
-            java.net.Inet6Address.getByName(address);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean validateIPv4Address(String address) {
-        try {
-            java.net.Inet4Address.getByName(address);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     /**

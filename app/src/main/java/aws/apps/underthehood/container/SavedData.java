@@ -27,13 +27,13 @@ import java.util.List;
 public class SavedData {
     final String TAG = this.getClass().getName();
 
-    private List<String> tIp = new ArrayList<String>();
-    private List<String> tIpConfig = new ArrayList<String>();
-    private List<String> tRoute = new ArrayList<String>();
-    private List<String> tNetlist = new ArrayList<String>();
-    private List<String> tPs = new ArrayList<String>();
-    private List<String> tOther = new ArrayList<String>();
-    private List<String> tSysProp = new ArrayList<String>();
+    private List<String> tIp = new ArrayList<>();
+    private List<String> tIpConfig = new ArrayList<>();
+    private List<String> tRoute = new ArrayList<>();
+    private List<String> tNetlist = new ArrayList<>();
+    private List<String> tPs = new ArrayList<>();
+    private List<String> tOther = new ArrayList<>();
+    private List<String> tSysProp = new ArrayList<>();
 
     private String dateTime = "";
     private boolean areWeRooted = false;
@@ -120,7 +120,7 @@ public class SavedData {
     }
 
     private List<String> tableToList(TableLayout t) {
-        List<String> l = new ArrayList<String>();
+        List<String> l = new ArrayList<>();
 
         l.clear();
 
