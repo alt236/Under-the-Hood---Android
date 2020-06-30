@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Under the Hood</string>
+
+    <string name="app_acknowledgements">
+		Acknowledgements:\n
+		·Original icon by Tim (http://www.clker.com/clipart-green-car-2.html).\n
+	</string>
+
+    <string name="app_copyright">Copyright A. Schillings, 2010</string>
+
+    <string name="app_changelog">
+		Changelog:\n
+		•v0.0.1 First public release.\n
+		•v0.0.2 Font size change buttons in menu.\n
+		•v0.0.3 Added "ip route show" and "ip -f inet6 route show", font size increase.\n
+		•v0.0.4 Threaded the execution, added choice dialogue.\n
+		•v0.0.5 Fixed "Other" tab, changed required Android version to 1.5 (it was 2.1), added a bit more information.\n
+		•v0.0.6 Changed required version to 1.6 as 1.5 broke large screens, changed icon, added more information.\n
+		•v0.0.7 Added parsing of /proc, rearranged tab contents.\n
+		•v0.0.8 Added more commands, added group separators.\n
+		•v0.0.9 Fixed export to SD card.\n
+		•v0.1.0 UI rewrite and fixes.\n
+	</string>
+
+    <string name="app_notes">
+		Notes:\n
+		•This is a personal debug tool, but it might be of use to someone else.\n
+		•If the device is rooted, then all commands will be executed as root. If not, then some commands will not return any data.\n
+		•I am sure that not all ROMs (factory, or custom) support all commands, but the application should handle any problems gracefully.\n
+		•For a list of commands, visit http://aschillings.co.uk/html/under_the_hood.html\n
+	</string>
+
+    <string name="label_menu_refresh">Refresh</string>
+    <string name="label_menu_about">About</string>
+    <string name="label_menu_share">Share</string>
+    <string name="label_menu_save_to_sd">Save to SD</string>
+    <string name="label_menu_font_size_plus">Increase Font</string>
+    <string name="label_menu_font_size_minus">Decrease Font</string>
+
+    <string name="label_device">Device:</string>
+    <string name="label_root_status">Root Status:</string>
+    <string name="label_time">Time:</string>
+
+    <string name="label_ipconfig_info">___ipconfig___________</string>
+    <string name="label_ip_route_info">___ip_n_route_________</string>
+    <string name="label_proc_info">___proc_______________</string>
+    <string name="label_netlist_info">___netlist____________</string>
+    <string name="label_ps_info">___ps_________________</string>
+    <string name="label_other_info">___other______________</string>
+    <string name="label_sys_prop">___system_properties__</string>
+
+    <string name="root_status_ok">Device Rooted</string>
+    <string name="root_status_not_ok">Could not get root?</string>
+
+    <string name="label_share_dialogue_title">Share with others</string>
+    <string name="label_edit_before_export">Edit text before exporting:</string>
+    <string name="label_export_to_sd">To SD</string>
+    <string name="label_export_close">Close</string>
+    <string name="label_export_share">Share</string>
+
+    <string name="dialogue_text_do_netstat">Do you want to execute netstat?\nIt can take a while to compete.</string>
+    <string name="dialogue_text_please_wait">Please wait...</string>
+    <string name="dialogue_title_select_commands">Select commands to execute</string>
+
+    <string name="text_execution_skipped_by_user">Execution skipped by user.</string>
+    <string name="text_under_the_hood">under_the_hood</string>
+    <string name="text_copied">copied.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="seperator_identifier">•</string>
+</resources>

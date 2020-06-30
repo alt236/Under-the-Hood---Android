@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="terminal_title_font">12dp</dimen>
+    <dimen name="terminal_data_font">12dp</dimen>
+
+    <dimen name="min_font_size">8dp</dimen>
+    <dimen name="max_font_size">16dp</dimen>
+
+</resources>
