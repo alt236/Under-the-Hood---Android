@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.UnderTheHoodDefault" parent="@style/Theme.AppCompat">
+        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicatorCustomisations</item>
+    </style>
+
+    <style name="Widget.TabPageIndicatorCustomisations" parent="Widget.TabPageIndicator">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:paddingRight">15dip</item>
+    </style>
+
+    <style name="TopTableTextView" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/terminal_data_font</item>
+        <item name="android:layout_marginLeft">5dip</item>
+        <item name="android:textColor">@color/default_text_color</item>
+    </style>
+
+    <style name="TopTableDataRow" parent="@android:style/TextAppearance.Medium">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/top_result_bg_color</item>
+    </style>
+
+    <style name="TerminalTextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+</resources>
