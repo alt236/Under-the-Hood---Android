@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,8 +32,8 @@ public class ViewPagerAdapter extends PagerAdapter {
     final private ArrayList<String> mTitleList;
 
     public ViewPagerAdapter() {
-        mViewList = new ArrayList<View>();
-        mTitleList = new ArrayList<String>();
+        mViewList = new ArrayList<>();
+        mTitleList = new ArrayList<>();
     }
 
     public void addView(View view, String title) {
@@ -51,7 +52,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object view) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object view) {
         ((ViewPager) container).removeView((View) view);
     }
 
@@ -75,21 +76,21 @@ public class ViewPagerAdapter extends PagerAdapter {
         return mViewList.get(position);
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ((ViewPager) container).addView(mViewList.get(position), 0);
         return mViewList.get(position);
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(View view, @NonNull Object object) {
         return view.equals(object);
     }
 
     public boolean shouldHideIndicator() {
-        if (mViewList == null || getCount() < 2) {
-
-            Log.d(TAG, "^ VIEWPAGERADAPTER: There are " + (mViewList == null ? "NULL" : getCount()) + " pages. Should hide!");
+        if (getCount() < 2) {
+            Log.d(TAG, "^ VIEWPAGERADAPTER: There are " + getCount() + " pages. Should hide!");
             return true;
         }
         return false;
