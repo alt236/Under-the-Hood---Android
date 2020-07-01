@@ -1,1 +1,2 @@
+include ':command_runner'
 include ':app'

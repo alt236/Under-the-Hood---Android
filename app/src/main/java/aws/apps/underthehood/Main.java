@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,20 +36,24 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Hashtable;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import aws.apps.underthehood.async.ExecuteThread;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import aws.apps.underthehood.ui.GuiCreation;
-import aws.apps.underthehood.util.ExecTerminal;
 import aws.apps.underthehood.util.UsefulBits;
+import uk.co.alt236.underthehood.commandrunner.ExecuteThread;
+import uk.co.alt236.underthehood.commandrunner.core.ExecTerminal;
 
 public class Main extends AppCompatActivity {
     private static final int DIALOG_EXECUTING = 1;
     private final String TAG = this.getClass().getName();
 
+    private NameViewModel model;
+
     private ViewAbstraction view;
     private String mTimeDate = "";
     private UsefulBits uB;
-    private boolean device_rooted = false;
     final Handler handler = new Handler() {
         @SuppressWarnings({"unchecked",})
         public void handleMessage(Message msg) {
@@ -73,7 +78,6 @@ public class Main extends AppCompatActivity {
         }
     };
     private ExecuteThread executeThread;
-    private TableConverter tableConverter;
 
     @SuppressWarnings("unchecked")
     private void setData(Bundle bundle) {
@@ -139,12 +143,25 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        model = new ViewModelProvider(this).get(NameViewModel.class);
+
+
         uB = new UsefulBits(this);
         view = new ViewAbstraction(this);
 
         //setup GUI
         final GuiCreation gui = new GuiCreation(this);
-        tableConverter = new TableConverter(gui);
+
+        final Observer<String> nameObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable final String newName) {
+                // Update the UI, in this case, a TextView.
+                uB.showToast("New name: " + newName, Toast.LENGTH_SHORT);
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        model.getCurrentName().observe(this, nameObserver);
 
         refreshInfo();
     }
@@ -264,7 +281,7 @@ public class Main extends AppCompatActivity {
         view.setDeviceInfo(Build.PRODUCT + " " + Build.DEVICE);
 
         mTimeDate = uB.formatDateTime("yyyy-MM-dd-HHmmssZ", new Date());
-        device_rooted = checkIfSu();
+        final boolean device_rooted = checkIfSu();
 
         view.setTimestamp(mTimeDate);
         view.setTextSize(getResources().getDimension(R.dimen.terminal_data_font));
