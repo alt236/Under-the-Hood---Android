@@ -6,8 +6,7 @@
     <TextView
         android:id="@+id/text"
         style="@style/TerminalTextView"
-        android:background="@color/white"
-        android:textColor="@color/black"
+        android:textColor="@color/terminal_command_text_color"
         android:textSize="@dimen/terminal_title_font"
         android:textStyle="bold" />
 
