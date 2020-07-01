@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package aws.apps.underthehood.util;
+package aws.apps.underthehood.async;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,6 +28,7 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 import aws.apps.underthehood.R;
+import aws.apps.underthehood.util.ExecTerminal;
 
 public class ExecuteThread extends Thread {
     public final static String MSG_IPCONFIG = "msg_ipconfig";
@@ -43,12 +44,14 @@ public class ExecuteThread extends Thread {
     public final static int WORK_COMPLETED = 50;
     public final static int WORK_INTERUPTED = 51;
 
+    private final CommandRunner commandRunner = new CommandRunner();
     private final String TAG = this.getClass().getName();
     private final Handler mHandler;
     private final Resources res;
-    private final boolean isRooted;
     private final Hashtable<CharSequence, Boolean> actions;
+    private final CommandGroup procCommands;
     private int mState;
+    private boolean isRooted;
 
     @SuppressWarnings("unchecked")
     public ExecuteThread(Handler h, Resources res, Bundle b) {
@@ -56,16 +59,16 @@ public class ExecuteThread extends Thread {
         this.mHandler = h;
         this.res = res;
         this.actions = (Hashtable<CharSequence, Boolean>) b.get("actions");
-        this.isRooted = checkIfSu();
+        this.procCommands = new ProcCommands(res);
     }
 
     public void run() {
-        mState = STATE_RUNNING;
-        Bundle b = new Bundle();
-        Message msg = new Message();
-
         Log.d(TAG, "^ ExecuteThread: Thread Started");
+        mState = STATE_RUNNING;
+        isRooted = checkIfSu();
+        final Bundle b = new Bundle();
 
+        Message msg;
         while (mState == STATE_RUNNING) {
             try {
                 Thread.sleep(100);
@@ -73,7 +76,7 @@ public class ExecuteThread extends Thread {
 
                 b.putStringArrayList(MSG_IPCONFIG, executeIpconfig(actions));
                 b.putStringArrayList(MSG_IP_ROUTE, executeIpRoute(actions));
-                b.putStringArrayList(MSG_PROC, executeProc(actions));
+                b.putStringArrayList(MSG_PROC, procCommands.execute(actions, isRooted));
                 b.putStringArrayList(MSG_OTHER, executeOther(actions));
                 b.putStringArrayList(MSG_PS, executePs(actions));
                 b.putStringArrayList(MSG_NETSTAT, executeNetstat(actions));
@@ -114,33 +117,7 @@ public class ExecuteThread extends Thread {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * It will execute a command without SU privileges
-     */
-    private String executeCommandAsUser(String cmd) {
-        String res = "";
-        ExecTerminal et = new ExecTerminal();
-        res = et.exec(cmd);
 
-        if (res.trim().equals("")) {
-            res = "result was blank";
-        }
-        return res;
-    }
-
-    /**
-     * It will execute a command as a normal user
-     */
-    private String executeCommandAsSu(String cmd) {
-        String res = "";
-        ExecTerminal et = new ExecTerminal();
-        res = et.execSu(cmd);
-
-        if (res.trim().equals("")) {
-            res = "result was blank";
-        }
-        return res;
-    }
 
     private ArrayList<String> executeIpconfig(Hashtable<CharSequence, Boolean> action_list) {
         ArrayList<String> l = new ArrayList<>();
@@ -183,45 +160,6 @@ public class ExecuteThread extends Thread {
 
         return l;
 
-    }
-
-    private ArrayList<String> executeProc(Hashtable<CharSequence, Boolean> action_list) {
-        ArrayList<String> l = new ArrayList<>();
-
-        l.add(res.getString(R.string.seperator_identifier) + "General Info");
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_version));
-        l.add(execute(R.string.shell_cat_proc_version, action_list, isRooted));
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_meminfo));
-        l.add(execute(R.string.shell_cat_proc_meminfo, action_list, isRooted));
-
-        l.add(res.getString(R.string.seperator_identifier) + "Hardware Info");
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_devices));
-        l.add(execute(R.string.shell_cat_proc_devices, action_list, isRooted));
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_mounts));
-        l.add(execute(R.string.shell_cat_proc_mounts, action_list, isRooted));
-
-        l.add(res.getString(R.string.seperator_identifier) + "Network Info");
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_net_arp));
-        l.add(execute(R.string.shell_cat_proc_net_arp, action_list, isRooted));
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_net_route));
-        l.add(execute(R.string.shell_cat_proc_net_route, action_list, isRooted));
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_net_wireless));
-        l.add(execute(R.string.shell_cat_proc_net_wireless, action_list, isRooted));
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_net_if_inet6));
-        l.add(execute(R.string.shell_cat_proc_net_if_inet6, action_list, isRooted));
-
-        l.add(getPromptSymbol(isRooted) + res.getString(R.string.shell_cat_proc_net_ipv6_route));
-        l.add(execute(R.string.shell_cat_proc_net_ipv6_route, action_list, isRooted));
-
-        return l;
     }
 
     private ArrayList<String> executeGetProp(Hashtable<CharSequence, Boolean> action_list) {
@@ -334,9 +272,9 @@ public class ExecuteThread extends Thread {
         if (action_list.get(cmd)) {
 
             if (isRooted) {
-                result = executeCommandAsSu(cmd);
+                result = commandRunner.executeAsRoot(cmd);
             } else {
-                result = executeCommandAsUser(cmd);
+                result = commandRunner.execute(cmd);
             }
         } else {
             result = res.getString(R.string.text_execution_skipped_by_user);
@@ -346,24 +284,19 @@ public class ExecuteThread extends Thread {
     }
 
     private boolean checkIfSu() {
-        String res = "";
-        ExecTerminal et = new ExecTerminal();
-        res = et.execSu("su && echo 1");
+        final ExecTerminal et = new ExecTerminal();
+        final String res = et.execSu("su && echo 1");
 
         if (res.trim().equals("1")) {
             Log.d(TAG, "^ Device can do SU");
             return true;
+        } else {
+            Log.d(TAG, "^ Device can't do SU");
+            return false;
         }
-
-        Log.d(TAG, "^ Device can't do SU");
-        return false;
     }
 
-    private String getPromptSymbol(boolean root) {
-        if (root) {
-            return "#";
-        } else {
-            return "$";
-        }
+    protected String getPromptSymbol(boolean root) {
+        return root ? "#" : "$";
     }
 }

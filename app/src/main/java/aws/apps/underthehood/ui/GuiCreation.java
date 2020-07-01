@@ -22,6 +22,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.StringRes;
 import aws.apps.underthehood.R;
 import aws.apps.underthehood.util.UsefulBits;
 
@@ -62,7 +63,7 @@ public class GuiCreation {
     public TableRow createDataRow(String text) {
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row_data, null);
 
-        TextView text1 = (TextView) tr.findViewById(R.id.text);
+        TextView text1 = tr.findViewById(R.id.text);
 
         text1.setClickable(true);
         text1.setOnClickListener(textViewCopyClickListener);
@@ -74,7 +75,7 @@ public class GuiCreation {
     public TableRow createSeperatorRow(String text) {
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row_section, null);
 
-        TextView text1 = (TextView) tr.findViewById(R.id.text);
+        TextView text1 = tr.findViewById(R.id.text);
         text1.setText(text);
 
         return tr;
@@ -83,17 +84,21 @@ public class GuiCreation {
     public TableRow createTitleRow(String text) {
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row_title, null);
 
-        TextView text1 = (TextView) tr.findViewById(R.id.text);
+        TextView text1 = tr.findViewById(R.id.text);
         text1.setText(text);
 
         return tr;
     }
 
-    public View getScrollableTable() {
+    public View createScrollableTable() {
         return inflater.inflate(R.layout.page_scrollable_table, null);
     }
 
-    public View getScrollableTextView() {
+    public View createScrollableTextView() {
         return inflater.inflate(R.layout.page_scrollable_textview, null);
+    }
+
+    public String getString(@StringRes int resId) {
+        return mContext.getString(resId);
     }
 }

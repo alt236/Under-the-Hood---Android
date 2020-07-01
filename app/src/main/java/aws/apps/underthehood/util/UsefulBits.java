@@ -20,11 +20,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -119,39 +114,6 @@ public class UsefulBits {
     public void showToast(String message, int duration) {
         Toast toast = Toast.makeText(c.getApplicationContext(), message, duration);
         toast.show();
-    }
-
-    public String tableToString(TableLayout t) {
-        String res = "";
-
-        for (int i = 0; i <= t.getChildCount() - 1; i++) {
-            TableRow row = (TableRow) t.getChildAt(i);
-
-            for (int j = 0; j <= row.getChildCount() - 1; j++) {
-                View v = row.getChildAt(j);
-
-                try {
-                    if (v.getClass() == Class.forName("android.widget.TextView")) {
-                        TextView tmp = (TextView) v;
-                        res += tmp.getText();
-
-                        if (j == 0) {
-                            res += " ";
-                        }
-                    } else if (v.getClass() == Class.forName("android.widget.EditText")) {
-                        EditText tmp = (EditText) v;
-                        res += tmp.getText().toString();
-                    } else {
-                        //do nothing
-                    }
-                } catch (Exception e) {
-                    res = e.toString();
-                    Log.e(TAG, "^ tableToString: " + res);
-                }
-            }
-            res += "\n";
-        }
-        return res;
     }
 
     public String getAboutDialogueText() {
