@@ -12,4 +12,7 @@
 
     <color name="unselected_tab_color">#FFEAEAEA</color>
     <color name="selected_tab_color">#FF222222</color>
+
+    <color name="terminal_section_text_color">#ff00ff</color>
+    <color name="terminal_command_text_color">#00ff00</color>
 </resources>
