@@ -60,7 +60,7 @@
     <string name="label_export_share">Share</string>
 
     <string name="dialogue_text_do_netstat">Do you want to execute netstat?\nIt can take a while to compete.</string>
-    <string name="dialogue_text_please_wait">Please wait...</string>
+    <string name="dialogue_text_please_wait">Please wait…</string>
     <string name="dialogue_title_select_commands">Select commands to execute</string>
 
     <string name="text_execution_skipped_by_user">Execution skipped by user.</string>
@@ -68,6 +68,4 @@
     <string name="text_copied">copied.</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-
-    <string name="seperator_identifier">•</string>
 </resources>

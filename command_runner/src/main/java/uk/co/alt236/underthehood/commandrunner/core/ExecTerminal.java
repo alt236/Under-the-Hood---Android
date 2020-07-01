@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package aws.apps.underthehood.util;
+package uk.co.alt236.underthehood.commandrunner.core;
 
 import android.util.Log;
 

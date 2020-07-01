@@ -1,4 +1,9 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
 
 android {
     compileSdkVersion 29
@@ -18,8 +23,16 @@ android {
     }
 
     dependencies {
+        def lifecycle_version = "2.2.0"
+
+        implementation project(":command_runner")
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
         implementation "androidx.appcompat:appcompat:1.1.0"
         implementation "com.google.android.material:material:1.1.0"
         implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+
+        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     }
 }
