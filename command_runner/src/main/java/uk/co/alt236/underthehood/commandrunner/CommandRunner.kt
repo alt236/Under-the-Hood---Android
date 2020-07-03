@@ -22,7 +22,7 @@ class CommandRunner(private val resources: Resources) {
             val result = callable.call()
             callback.onCommandsCompleted(result)
 
-            return result;
+            return result
         }
 
     }

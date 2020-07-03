@@ -50,7 +50,7 @@ class AlertDialogFragment : DialogFragment() {
         textView.movementMethod = LinkMovementMethod.getInstance()
 
         Linkify.addLinks(spannableMessage, Linkify.ALL)
-        val listener = DialogInterface.OnClickListener { dialog: DialogInterface?, id: Int -> }
+        val listener = DialogInterface.OnClickListener { _: DialogInterface?, _: Int -> }
         return AlertDialog.Builder(context!!)
                 .setTitle(title)
                 .setPositiveButton(R.string.ok, listener)

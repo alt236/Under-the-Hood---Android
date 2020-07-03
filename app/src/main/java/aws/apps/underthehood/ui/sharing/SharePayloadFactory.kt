@@ -23,25 +23,40 @@ class SharePayloadFactory(private val resources: Resources) {
     private fun createText(subject: String, result: Result): String {
         val sb = StringBuilder()
         sb.append(subject)
-//        sb.append("---------------------------------\n\n")
-//        sb.append(tableConverter.tableToString(tableDeviceInfo));
-//        sb.append(getString(R.string.label_ipconfig_info) + "\n");
-//        sb.append(tableConverter.tableToString(tableIpconfig));
-//        sb.append(getString(R.string.label_ip_route_info) + "\n");
-//        sb.append(tableConverter.tableToString(tableIpRoute));
-//        sb.append(getString(R.string.label_proc_info) + "\n");
-//        sb.append(tableConverter.tableToString(tableProc));
-//        sb.append(getString(R.string.label_netlist_info) + "\n");
-//        sb.append(tableConverter.tableToString(tableNetstat));
-//        sb.append(getString(R.string.label_ps_info) + "\n");
-//        sb.append(tableConverter.tableToString(tablePs));
-//        sb.append(getString(R.string.label_sys_prop) + "\n");
-//        sb.append(tableConverter.tableToString(tableSysProp));
-//        sb.append(getString(R.string.label_other_info) + "\n");
-//        sb.append(tableConverter.tableToString(tableOther));
+        appendData(sb, R.string.export_section_device_info, result.deviceinfo)
+        sb.append("---------------------------------\n\n")
+
+        appendData(sb, R.string.export_section_ipconfig_info, result.ipConfigData)
+        appendData(sb, R.string.export_section_ip_route_info, result.ipRouteData)
+        appendData(sb, R.string.export_section_proc_info, result.procData)
+        appendData(sb, R.string.export_section_ps_info, result.psData)
+        appendData(sb, R.string.export_section_netstat_info, result.netstatData)
+        appendData(sb, R.string.export_section_sys_prop, result.sysPropData)
+        appendData(sb, R.string.export_section_other_info, result.otherData)
+
         sb.append("\n\n---------------------------------")
         return sb.toString().trim { it <= ' ' }
     }
+
+    private fun appendData(sb: StringBuilder, @StringRes sectionLabel: Int, payload: String) {
+        if (payload.isEmpty()) {
+            return
+        }
+        sb.append(getString(sectionLabel) + "\n")
+        sb.append(payload + "\n")
+
+    }
+
+    private fun appendData(sb: StringBuilder, @StringRes sectionLabel: Int, payload: List<String>) {
+        if (payload.isEmpty()) {
+            return
+        }
+        sb.append(getString(sectionLabel) + "\n")
+        for (line in payload) {
+            sb.append("$line\n")
+        }
+    }
+
 
     private fun getString(@StringRes id: Int): String {
         return resources.getString(id)

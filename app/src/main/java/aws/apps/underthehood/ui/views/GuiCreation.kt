@@ -15,8 +15,8 @@
  */
 package aws.apps.underthehood.ui.views
 
+import android.content.ClipData
 import android.content.Context
-import android.text.ClipboardManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TableRow
@@ -38,14 +38,14 @@ class GuiCreation(private val mContext: Context) {
         return tr
     }
 
-    fun createSeperatorRow(text: String?): TableRow {
+    fun createSeperatorRow(text: String): TableRow {
         val tr = inflater.inflate(R.layout.table_row_section, null) as TableRow
         val textView = tr.findViewById<TextView>(R.id.text)
         textView.text = text
         return tr
     }
 
-    fun createTitleRow(text: String?): TableRow {
+    fun createTitleRow(text: String): TableRow {
         val tr = inflater.inflate(R.layout.table_row_title, null) as TableRow
         val textView = tr.findViewById<TextView>(R.id.text)
         textView.text = text
@@ -77,8 +77,10 @@ class GuiCreation(private val mContext: Context) {
             val msgtext = getMessageText(text)
 
             val message = context.getString(R.string.template_text_copied, msgtext)
-            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            clipboard.text = text
+
+            val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            val clipData = ClipData.newPlainText("Copied data", text)
+            clipboardManager.setPrimaryClip(clipData)
 
             userNotify.notify(message)
         }

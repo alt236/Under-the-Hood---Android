@@ -1,13 +1,11 @@
 package aws.apps.underthehood.ui.main
 
 import android.app.Activity
-import android.content.res.Resources
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import aws.apps.underthehood.R
 import aws.apps.underthehood.adapters.ViewPagerAdapter
-import aws.apps.underthehood.ui.views.FontSizeChanger
 import aws.apps.underthehood.ui.views.GuiCreation
 import com.viewpagerindicator.TabPageIndicator
 import uk.co.alt236.underthehood.commandrunner.Result
@@ -16,14 +14,12 @@ import java.util.*
 class MainView(activity: Activity) {
     private val tableLayoutParams = TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT)
     private val gui: GuiCreation = GuiCreation(activity)
-    private val fontSizeChanger = FontSizeChanger()
     private val tableConverter = TableConverter(gui)
     private val tableList: MutableList<TableLayout> = ArrayList()
 
     private val lblRootStatus: TextView
     private val lblTimeDate: TextView
     private val lblDevice: TextView
-    private val resources: Resources = activity.resources
     private val tableIpconfig: TableLayout
     private val tableIpRoute: TableLayout
     private val tablePs: TableLayout
@@ -32,8 +28,6 @@ class MainView(activity: Activity) {
     private val tableProc: TableLayout
     private val tableSysProp: TableLayout
     private val tableDeviceInfo: TableLayout
-
-    private var tableTextSize = 0f
 
     private fun createTable(adapter: ViewPagerAdapter, title: String): TableLayout {
         val v = gui.createScrollableTable()
@@ -51,26 +45,6 @@ class MainView(activity: Activity) {
         lblTimeDate.text = ""
     }
 
-    fun fontSizeDecrease() {
-        tableTextSize -= 2f
-        if (tableTextSize < resources.getDimension(R.dimen.min_font_size)) {
-            tableTextSize = resources.getDimension(R.dimen.min_font_size)
-        }
-        applyTableFontSize(tableTextSize)
-    }
-
-    fun fontSizeIncrease() {
-        tableTextSize += 2f
-        if (tableTextSize > resources.getDimension(R.dimen.max_font_size)) {
-            tableTextSize = resources.getDimension(R.dimen.max_font_size)
-        }
-        applyTableFontSize(tableTextSize)
-    }
-
-    fun setDeviceInfo(text: String) {
-        lblDevice.text = text
-    }
-
     fun showResults(result: Result) {
         lblRootStatus.text = if (result.isRooted) "Rooted" else "Not rooted"
         lblTimeDate.text = result.timestamp.toString()
@@ -83,16 +57,6 @@ class MainView(activity: Activity) {
         tableConverter.listToTable(tableLayoutParams, tableIpconfig, result.ipConfigData)
         tableConverter.listToTable(tableLayoutParams, tableNetstat, result.netstatData)
         tableConverter.listToTable(tableLayoutParams, tableSysProp, result.sysPropData)
-    }
-
-    fun setTextSize(textSize: Float) {
-        tableTextSize = textSize
-    }
-
-    private fun applyTableFontSize(fontSize: Float) {
-        for (table in tableList) {
-            fontSizeChanger.changeFontSize(table, fontSize)
-        }
     }
 
     companion object {

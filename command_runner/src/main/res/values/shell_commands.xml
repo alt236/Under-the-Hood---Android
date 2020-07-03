@@ -1,40 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="shell_commands">
-        <item>@string/shell_netcfg</item>
-        <item>@string/shell_ifconfig_dash_a</item>
-        <item>@string/shell_ip_addr</item>
-        <item>@string/shell_ip_neigh</item>
-        <item>@string/shell_ip_route_show</item>
-        <item>@string/shell_ip_inet6_addr</item>
-        <item>@string/shell_ip_inet6_route_show</item>
-        <item>@string/shell_route_n</item>
-        <item>@string/shell_route_inet6</item>
-        <item>@string/shell_df_ah</item>
-        <item>@string/shell_ps</item>
-        <item>@string/shell_netstat_r</item>
-        <item>@string/shell_netstat_a</item>
-        <item>@string/shell_uname_a</item>
-        <item>@string/shell_lsmod</item>
-
-        <item>@string/shell_cat_proc_version</item>
-        <item>@string/shell_cat_proc_devices</item>
-        <item>@string/shell_cat_proc_meminfo</item>
-        <item>@string/shell_cat_proc_mounts</item>
-        <item>@string/shell_cat_proc_net_route</item>
-        <item>@string/shell_cat_proc_net_if_inet6</item>
-        <item>@string/shell_cat_proc_net_ipv6_route</item>
-        <item>@string/shell_cat_proc_net_arp</item>
-        <item>@string/shell_cat_proc_net_wireless</item>
-
-        <item>@string/shell_getprop_product_version</item>
-        <item>@string/shell_getprop_build_fingerprint</item>
-        <item>@string/shell_getprop_gsm_baseband</item>
-        <item>@string/shell_getprop_vm_execution_mode</item>
-        <item>@string/shell_getprop_vm_heapsize</item>
-        <item>@string/shell_getprop_lcd_density</item>
-
-    </array>
 
     <string name="shell_netcfg">netcfg</string>
     <string name="shell_ifconfig_dash_a">ifconfig -a</string>
