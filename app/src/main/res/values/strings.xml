@@ -65,7 +65,7 @@
 
     <string name="text_execution_skipped_by_user">Execution skipped by user.</string>
     <string name="text_under_the_hood">under_the_hood</string>
-    <string name="text_copied">copied.</string>
+    <string name="template_text_copied">\'%s\' copied.</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 </resources>

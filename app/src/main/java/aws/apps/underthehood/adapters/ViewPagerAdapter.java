@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 public class ViewPagerAdapter extends PagerAdapter {
     private final String TAG = this.getClass().getName();
@@ -38,7 +37,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     public void addView(View view, String title) {
         if (view == null) {
-            //Log.w(Constants.TAG, "^ ViewPagerAdapter: View is null");
             return;
         }
         mViewList.add(view);
@@ -53,7 +51,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object view) {
-        ((ViewPager) container).removeView((View) view);
+        container.removeView((View) view);
     }
 
     public int getCount() {
@@ -79,7 +77,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        ((ViewPager) container).addView(mViewList.get(position), 0);
+        container.addView(mViewList.get(position), 0);
         return mViewList.get(position);
     }
 

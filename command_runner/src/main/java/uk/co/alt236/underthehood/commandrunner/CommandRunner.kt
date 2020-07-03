@@ -1,30 +1,29 @@
 package uk.co.alt236.underthehood.commandrunner
 
-import uk.co.alt236.underthehood.commandrunner.core.ExecTerminal
+import android.content.res.Resources
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
 
-internal class CommandRunner {
+class CommandRunner(private val resources: Resources) {
+    private val executor = Executors.newSingleThreadExecutor()
 
-    fun execute(cmd: String): String {
-        val et = ExecTerminal()
-        val res = et.exec(cmd)
-        return sanitise(res)
+    fun runCommands(callback: Callback<Result>) {
+        val callable: Callable<Result> = ExecuteCallable(resources)
+        executor.submit(ListenableCallable(callable, callback))
     }
 
-    fun executeAsRoot(cmd: String): String {
-        val et = ExecTerminal()
-        val res = et.execSu(cmd)
-        return sanitise(res)
+    interface Callback<T> {
+        fun onCommandsCompleted(result: T)
     }
 
-    private fun sanitise(result: String): String {
-        return if (result.trim { it <= ' ' } == "") {
-            NO_OUTPUT
-        } else {
-            result
+    private class ListenableCallable<T>(private val callable: Callable<T>,
+                                        private val callback: Callback<T>) : Callable<T> {
+        override fun call(): T {
+            val result = callable.call()
+            callback.onCommandsCompleted(result)
+
+            return result;
         }
-    }
 
-    private companion object {
-        private const val NO_OUTPUT = "result was blank"
     }
 }
