@@ -49,7 +49,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
-    <aws.apps.underthehood.ui.CustomViewPager
+    <aws.apps.underthehood.ui.views.CustomViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="0dp"

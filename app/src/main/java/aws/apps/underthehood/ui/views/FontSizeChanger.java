@@ -1,4 +1,4 @@
-package aws.apps.underthehood.ui;
+package aws.apps.underthehood.ui.views;
 
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,6 +21,7 @@ public class FontSizeChanger {
                     if (v.getClass() == Class.forName("android.widget.TextView")) {
                         TextView tv = (TextView) v;
                         if (i % 2 == 0) {
+                            // DO NOTHING
                         } else {
                             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
                         }

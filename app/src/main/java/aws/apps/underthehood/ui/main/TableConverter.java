@@ -1,4 +1,4 @@
-package aws.apps.underthehood;
+package aws.apps.underthehood.ui.main;
 
 import android.util.Log;
 import android.view.View;
@@ -10,7 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import aws.apps.underthehood.ui.GuiCreation;
+import aws.apps.underthehood.R;
+import aws.apps.underthehood.ui.views.GuiCreation;
 
 public class TableConverter {
     private final String TAG = this.getClass().getName();

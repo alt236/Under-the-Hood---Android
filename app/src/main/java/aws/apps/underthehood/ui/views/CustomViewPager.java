@@ -1,4 +1,4 @@
-package aws.apps.underthehood.ui;
+package aws.apps.underthehood.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

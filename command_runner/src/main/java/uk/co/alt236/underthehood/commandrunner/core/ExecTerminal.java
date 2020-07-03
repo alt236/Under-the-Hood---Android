@@ -24,10 +24,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ExecTerminal {
-    final String TAG = this.getClass().getName();
+    final String TAG = this.getClass().getSimpleName();
 
     public String exec(String cmd) {
-        Log.d(TAG, "^ Executing '" + cmd + "'");
+        Log.d(TAG, "Executing '" + cmd + "'");
+
         try {
             Process process = Runtime.getRuntime().exec("sh");
             DataInputStream is = new DataInputStream(process.getInputStream());
@@ -37,67 +38,61 @@ public class ExecTerminal {
             os.flush();
             os.close();
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(is));
-            try {
-                String fullOutput = "";
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    fullOutput = fullOutput + line + "\n";
-                }
-                return fullOutput;
-            } catch (IOException e) {
-                Log.e(TAG, "^ exec, IOException 1");
-                e.printStackTrace();
-            }
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            final String result = readFromReader(reader);
 
             process.waitFor();
+            reader.close();
 
-        } catch (IOException e) {
-            Log.e(TAG, "^ exec, IOException 2");
-            e.printStackTrace();
-
-        } catch (InterruptedException e) {
-            Log.e(TAG, "^ exec, InterruptedException");
+            return result;
+        } catch (IOException | InterruptedException e) {
+            Log.e(TAG, "exec, Exception: " + e);
             e.printStackTrace();
         }
+
         return "";
     }
 
     public String execSu(String cmd) {
-        Log.d(TAG, "^ Executing as SU '" + cmd + "'");
+        Log.d(TAG, "Executing as SU '" + cmd + "'");
         try {
             Process process = Runtime.getRuntime().exec("su");
             DataInputStream is = new DataInputStream(process.getInputStream());
-            DataOutputStream os = new DataOutputStream(process
-                    .getOutputStream());
+            DataOutputStream os = new DataOutputStream(process.getOutputStream());
             os.writeBytes(cmd + "\n");
             os.writeBytes("exit\n");
             os.flush();
             os.close();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            final String result = readFromReader(reader);
 
-            try {
-                String fullOutput = "";
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    fullOutput = fullOutput + line + "\n";
-                }
-                return fullOutput;
-            } catch (IOException e) {// It seems IOException is thrown when it reaches EOF.
-                e.printStackTrace();
-                Log.e(TAG, "^ execSU, IOException 1");
-            }
             process.waitFor();
+            reader.close();
 
-        } catch (IOException e) {
+            return result;
+        } catch (IOException | InterruptedException e) {
+            Log.e(TAG, "execSU, Exception: " + e);
             e.printStackTrace();
-            Log.e(TAG, "^ execSU, IOException 2");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Log.e(TAG, "^ execSU, InterruptedException");
         }
+
+        return "";
+    }
+
+
+    private String readFromReader(BufferedReader reader) {
+        try {
+            StringBuilder fullOutput = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fullOutput.append(line).append('\n');
+            }
+            return fullOutput.toString();
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to read from reader: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         return "";
     }
 }
