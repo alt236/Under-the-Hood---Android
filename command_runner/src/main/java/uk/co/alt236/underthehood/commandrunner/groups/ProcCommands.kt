@@ -3,28 +3,56 @@ package uk.co.alt236.underthehood.commandrunner.groups
 import android.content.res.Resources
 import uk.co.alt236.underthehood.commandrunner.CommandGroup
 import uk.co.alt236.underthehood.commandrunner.R
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutput
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 import java.util.*
 
 internal class ProcCommands internal constructor(res: Resources) : CommandGroup(res) {
 
-    override fun execute(isRooted: Boolean): ArrayList<String> {
-        val list = ArrayList<String>()
+    override fun execute(rooted: Boolean): List<CommandOutputGroup> {
+        return listOf(
+                collectGeneralInfo(rooted),
+                collectHardwareInfo(rooted),
+                collectNetworkInfo(rooted)
+        )
+    }
 
-        list.add(getString(R.string.seperator_identifier) + "General Info")
-        list.addAll(execute(R.string.shell_cat_proc_version, isRooted))
-        list.addAll(execute(R.string.shell_cat_proc_meminfo, isRooted))
+    private fun collectGeneralInfo(rooted: Boolean): CommandOutputGroup {
+        val list = ArrayList<CommandOutput>()
 
-        list.add(getString(R.string.seperator_identifier) + "Hardware Info")
-        list.addAll(execute(R.string.shell_cat_proc_devices, isRooted))
-        list.addAll(execute(R.string.shell_cat_proc_mounts, isRooted))
+        list.add(execute(R.string.shell_cat_proc_version, rooted))
+        list.add(execute(R.string.shell_cat_proc_meminfo, rooted))
 
-        list.add(getString(R.string.seperator_identifier) + "Network Info")
-        list.addAll(execute(R.string.shell_cat_proc_net_arp, isRooted))
-        list.addAll(execute(R.string.shell_cat_proc_net_route, isRooted))
-        list.addAll(execute(R.string.shell_cat_proc_net_wireless, isRooted))
-        list.addAll(execute(R.string.shell_cat_proc_net_if_inet6, isRooted))
-        list.addAll(execute(R.string.shell_cat_proc_net_ipv6_route, isRooted))
+        return CommandOutputGroup(
+                name = "General Info",
+                commandOutputs = list
+        )
+    }
 
-        return list
+    private fun collectHardwareInfo(rooted: Boolean): CommandOutputGroup {
+        val list = ArrayList<CommandOutput>()
+
+        list.add(execute(R.string.shell_cat_proc_devices, rooted))
+        list.add(execute(R.string.shell_cat_proc_mounts, rooted))
+
+        return CommandOutputGroup(
+                name = "Hardware Info",
+                commandOutputs = list
+        )
+    }
+
+    private fun collectNetworkInfo(rooted: Boolean): CommandOutputGroup {
+        val list = ArrayList<CommandOutput>()
+
+        list.add(execute(R.string.shell_cat_proc_net_arp, rooted))
+        list.add(execute(R.string.shell_cat_proc_net_route, rooted))
+        list.add(execute(R.string.shell_cat_proc_net_wireless, rooted))
+        list.add(execute(R.string.shell_cat_proc_net_if_inet6, rooted))
+        list.add(execute(R.string.shell_cat_proc_net_ipv6_route, rooted))
+
+        return CommandOutputGroup(
+                name = "Network Info",
+                commandOutputs = list
+        )
     }
 }

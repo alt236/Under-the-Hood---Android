@@ -3,28 +3,26 @@ package uk.co.alt236.underthehood.commandrunner
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import uk.co.alt236.underthehood.commandrunner.core.TerminalOutput
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutput
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 
 internal abstract class CommandGroup(private val res: Resources) {
     private val commandRunner = Cli()
 
-    abstract fun execute(rooted: Boolean): ArrayList<String>
-
-    protected fun getPromptSymbol(root: Boolean): String {
-        return if (root) "#" else "$"
-    }
+    abstract fun execute(rooted: Boolean): List<CommandOutputGroup>
 
     protected fun getString(@StringRes resId: Int): String {
         return res.getString(resId)
     }
 
     protected fun execute(@StringRes command: Int,
-                          isRooted: Boolean): List<String> {
+                          isRooted: Boolean): CommandOutput {
         val commandString = getString(command)
         return execute(commandString, isRooted)
     }
 
     protected fun execute(command: String,
-                          isRooted: Boolean): List<String> {
+                          isRooted: Boolean): CommandOutput {
 
         val result = if (isRooted) {
             commandRunner.executeAsRoot(command)
@@ -32,29 +30,29 @@ internal abstract class CommandGroup(private val res: Resources) {
             commandRunner.execute(command)
         }
 
-        val list = ArrayList<String>(2)
-        list.add(getPromptSymbol(isRooted) + command)
+        val normalised = normaliseOutput(result)
 
-        val commandOutput = normaliseOutput(result)
-
-        list.add(commandOutput)
-
-        return list
+        return CommandOutput(
+                asRoot = isRooted,
+                successful = !normalised.isError,
+                command = command,
+                output = normalised.output)
     }
 
-    private fun normaliseOutput(result: TerminalOutput): String {
+    private fun normaliseOutput(result: TerminalOutput): NormalisedOutput {
         val commandHadOutput = result.stdOut.trim().isNotBlank()
         val commandHadError = result.stdErr.trim().isNotBlank()
 
         return when {
-            commandHadOutput -> result.stdOut.trim()
-            result.exitValue == 0 -> "[Command produced no output]"
-            commandHadError -> result.stdErr.trim()
+            commandHadOutput -> NormalisedOutput(result.stdOut.trim())
+            result.exitValue == 0 -> NormalisedOutput("[Command produced no output]")
+            commandHadError -> NormalisedOutput(result.stdErr.trim(), isError = true)
             else -> {
-                "[Command failed with no output. Exit code: ${result.exitValue}]"
+                NormalisedOutput("[Command failed with no output. Exit code: ${result.exitValue}]", isError = true)
             }
         }
 
     }
 
+    private data class NormalisedOutput(val output: String, val isError: Boolean = false)
 }

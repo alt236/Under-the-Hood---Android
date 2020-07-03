@@ -1,34 +1,37 @@
 package aws.apps.underthehood.ui.main
 
+import android.graphics.Color
 import android.util.Log
 import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import aws.apps.underthehood.R
 import aws.apps.underthehood.ui.views.GuiCreation
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutput
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 
 class TableConverter(private val gui: GuiCreation) {
     private val TAG = this.javaClass.name
+    private val separator = gui.getString(R.string.seperator_identifier)
 
-    fun listToTable(lp: TableLayout.LayoutParams, t: TableLayout, lines: List<String>) {
-        var chr: String
-        val separator = gui.getString(R.string.seperator_identifier)
+    fun listToTable(lp: TableLayout.LayoutParams, t: TableLayout, groups: List<CommandOutputGroup>) {
         try {
-            if (lines.isEmpty()) {
+            if (groups.isEmpty()) {
                 return
             }
 
-            for (line in lines) {
-                if (line.isEmpty()) {
+            for (group in groups) {
+                if (group.commandOutputs.isEmpty()) {
                     continue
                 }
 
-                chr = line.substring(0, 1)
+                if (group.name.isNotEmpty()) {
+                    t.addView(gui.createSeperatorRow(separator + group.name), lp)
+                }
 
-                if (chr == "#" || chr == "$" || chr == ">") {
-                    t.addView(gui.createTitleRow(line), lp)
-                } else if (chr == separator) {
-                    t.addView(gui.createSeperatorRow(line), lp)
-                } else {
-                    t.addView(gui.createDataRow(line), lp)
+                for (output in group.commandOutputs) {
+                    t.addView(gui.createTitleRow(output.commandWithPrompt), lp)
+                    t.addView(createDataRow(output), lp)
                 }
             }
         } catch (e: Exception) {
@@ -36,4 +39,11 @@ class TableConverter(private val gui: GuiCreation) {
         }
     }
 
+    private fun createDataRow(output: CommandOutput): TableRow {
+        val dataRow = gui.createDataRow(output.output)
+        if (!output.successful) {
+            dataRow.findViewById<TextView>(R.id.text).setTextColor(Color.RED)
+        }
+        return dataRow
+    }
 }

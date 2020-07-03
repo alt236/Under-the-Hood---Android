@@ -2,7 +2,7 @@ package aws.apps.underthehood.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import uk.co.alt236.underthehood.commandrunner.Result
+import uk.co.alt236.underthehood.commandrunner.model.Result
 
 class MainViewModel : ViewModel() {
     // Create a LiveData with a String

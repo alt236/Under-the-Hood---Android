@@ -3,9 +3,11 @@ package aws.apps.underthehood.ui.sharing
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import aws.apps.underthehood.R
-import uk.co.alt236.underthehood.commandrunner.Result
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
+import uk.co.alt236.underthehood.commandrunner.model.Result
 
 class SharePayloadFactory(private val resources: Resources) {
+    private val separator = resources.getString(R.string.seperator_identifier)
 
     fun create(result: Result): SharePayload {
         val timestamp = result.timestamp.toString()
@@ -22,7 +24,8 @@ class SharePayloadFactory(private val resources: Resources) {
 
     private fun createText(subject: String, result: Result): String {
         val sb = StringBuilder()
-        sb.append(subject)
+        sb.appendLn(subject)
+
         appendData(sb, R.string.export_section_device_info, result.deviceinfo)
         sb.append("---------------------------------\n\n")
 
@@ -42,23 +45,35 @@ class SharePayloadFactory(private val resources: Resources) {
         if (payload.isEmpty()) {
             return
         }
-        sb.append(getString(sectionLabel) + "\n")
-        sb.append(payload + "\n")
-
+        sb.appendLn(getString(sectionLabel))
+        sb.appendLn(payload)
     }
 
-    private fun appendData(sb: StringBuilder, @StringRes sectionLabel: Int, payload: List<String>) {
+    private fun appendData(sb: StringBuilder, @StringRes sectionLabel: Int, payload: List<CommandOutputGroup>) {
         if (payload.isEmpty()) {
             return
         }
-        sb.append(getString(sectionLabel) + "\n")
-        for (line in payload) {
-            sb.append("$line\n")
+
+        sb.appendLn(getString(sectionLabel))
+        for (group in payload) {
+            if (group.name.isNotEmpty()) {
+                sb.appendLn(separator + group.name)
+            }
+
+            for (command in group.commandOutputs) {
+                sb.appendLn(command.commandWithPrompt)
+                sb.appendLn(command.output)
+            }
         }
     }
 
-
     private fun getString(@StringRes id: Int): String {
         return resources.getString(id)
+    }
+
+    private fun StringBuilder.appendLn(input: String): StringBuilder {
+        this.append(input)
+        this.append('\n')
+        return this
     }
 }

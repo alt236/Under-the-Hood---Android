@@ -8,7 +8,7 @@ import aws.apps.underthehood.R
 import aws.apps.underthehood.adapters.ViewPagerAdapter
 import aws.apps.underthehood.ui.views.GuiCreation
 import com.viewpagerindicator.TabPageIndicator
-import uk.co.alt236.underthehood.commandrunner.Result
+import uk.co.alt236.underthehood.commandrunner.model.Result
 import java.util.*
 
 class MainView(activity: Activity) {
@@ -64,8 +64,8 @@ class MainView(activity: Activity) {
     }
 
     init {
-        val mViewPager: ViewPager = activity.findViewById(R.id.pager)
-        val mIndicator: TabPageIndicator = activity.findViewById(R.id.indicator)
+        val viewPager: ViewPager = activity.findViewById(R.id.pager)
+        val indicator: TabPageIndicator = activity.findViewById(R.id.indicator)
         val adapter = ViewPagerAdapter()
         tableDeviceInfo = activity.findViewById(R.id.main_table_device_info)
         lblRootStatus = activity.findViewById(R.id.tvRootStatus)
@@ -78,7 +78,7 @@ class MainView(activity: Activity) {
         tablePs = createTable(adapter, "ps")
         tableSysProp = createTable(adapter, "prop")
         tableOther = createTable(adapter, "other")
-        mViewPager.adapter = adapter
-        mIndicator.setViewPager(mViewPager)
+        viewPager.adapter = adapter
+        indicator.setViewPager(viewPager)
     }
 }
