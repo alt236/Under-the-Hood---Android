@@ -28,7 +28,7 @@ import aws.apps.underthehood.ui.sharing.ExportFileWriter
 import aws.apps.underthehood.ui.sharing.SharePayload
 import aws.apps.underthehood.ui.sharing.SharePayloadFactory
 import uk.co.alt236.underthehood.commandrunner.CommandRunner
-import uk.co.alt236.underthehood.commandrunner.Result
+import uk.co.alt236.underthehood.commandrunner.model.Result
 
 class Main : AppCompatActivity() {
     private lateinit var sharePayloadFactory: SharePayloadFactory

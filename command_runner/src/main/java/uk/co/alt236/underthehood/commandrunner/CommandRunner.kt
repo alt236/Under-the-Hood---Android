@@ -1,6 +1,7 @@
 package uk.co.alt236.underthehood.commandrunner
 
 import android.content.res.Resources
+import uk.co.alt236.underthehood.commandrunner.model.Result
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 

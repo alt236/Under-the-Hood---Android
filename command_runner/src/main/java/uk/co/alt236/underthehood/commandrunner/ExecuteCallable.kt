@@ -19,6 +19,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.util.Log
 import uk.co.alt236.underthehood.commandrunner.groups.*
+import uk.co.alt236.underthehood.commandrunner.model.Result
 import java.util.concurrent.Callable
 
 internal class ExecuteCallable(res: Resources) : Callable<Result> {

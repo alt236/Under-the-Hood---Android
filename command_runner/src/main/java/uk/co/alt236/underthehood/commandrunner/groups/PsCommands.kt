@@ -3,14 +3,21 @@ package uk.co.alt236.underthehood.commandrunner.groups
 import android.content.res.Resources
 import uk.co.alt236.underthehood.commandrunner.CommandGroup
 import uk.co.alt236.underthehood.commandrunner.R
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutput
+import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 
 internal class PsCommands internal constructor(res: Resources) : CommandGroup(res) {
 
-    override fun execute(rooted: Boolean): ArrayList<String> {
-        val list = ArrayList<String>()
+    override fun execute(rooted: Boolean): List<CommandOutputGroup> {
+        val list = ArrayList<CommandOutput>()
 
-        list.addAll(execute(R.string.shell_ps, rooted))
+        list.add(execute(R.string.shell_ps, rooted))
 
-        return list
+        return listOf(
+                CommandOutputGroup(
+                        name = "",
+                        commandOutputs = list
+                )
+        )
     }
 }

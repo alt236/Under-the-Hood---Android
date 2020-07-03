@@ -27,16 +27,7 @@ internal class Cli {
         }
     }
 
-    private fun sanitise(result: String): String {
-        return if (result.trim { it <= ' ' } == "") {
-            NO_OUTPUT
-        } else {
-            result
-        }
-    }
-
     private companion object {
-        private const val NO_OUTPUT = "result was blank"
         private val TAG = Cli::class.java.simpleName
     }
 }
