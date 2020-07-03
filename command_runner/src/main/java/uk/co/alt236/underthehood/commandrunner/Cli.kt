@@ -2,25 +2,23 @@ package uk.co.alt236.underthehood.commandrunner
 
 import android.util.Log
 import uk.co.alt236.underthehood.commandrunner.core.ExecTerminal
+import uk.co.alt236.underthehood.commandrunner.core.TerminalOutput
 
 internal class Cli {
+    private val terminal = ExecTerminal()
 
-    fun execute(cmd: String): String {
-        val et = ExecTerminal()
-        val res = et.exec(cmd)
-        return sanitise(res)
+    fun execute(cmd: String): TerminalOutput {
+        return terminal.exec(cmd)
     }
 
-    fun executeAsRoot(cmd: String): String {
-        val et = ExecTerminal()
-        val res = et.execSu(cmd)
-        return sanitise(res)
+    fun executeAsRoot(cmd: String): TerminalOutput {
+        return terminal.execSu(cmd)
     }
 
     fun checkIfSu(): Boolean {
-        val et = ExecTerminal()
-        val res = et.execSu("su && echo 1")
-        return if (res.trim { it <= ' ' } == "1") {
+        val res = terminal.execSu("su && echo 1")
+        println(res)
+        return if (res.stdOut.trim { it <= ' ' } == "1") {
             Log.d(TAG, "Device CAN do SU")
             true
         } else {
