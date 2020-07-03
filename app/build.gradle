@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'com.github.triplet.play' version '2.5.0'
+    id 'com.github.triplet.play' version '2.8.0'
 }
 
 apply from: "${project.rootDir}/buildsystem/android-defaults.gradle"
