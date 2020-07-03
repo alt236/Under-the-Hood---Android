@@ -29,64 +29,65 @@ public class ExecTerminal {
     final String TAG = this.getClass().getSimpleName();
 
     @NonNull
-    public String exec(@NonNull String cmd) {
-        Log.d(TAG, "Executing '" + cmd + "'");
-
-        try {
-            Process process = Runtime.getRuntime().exec("sh");
-            DataInputStream is = new DataInputStream(process.getInputStream());
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes(cmd + "\n");
-            os.writeBytes("exit\n");
-            os.flush();
-            os.close();
-
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            final String result = readFromReader(reader);
-
-            process.waitFor();
-            reader.close();
-
-            return result;
-        } catch (IOException | InterruptedException e) {
-            Log.e(TAG, "exec, Exception: " + e);
-            e.printStackTrace();
-        }
-
-        return "";
+    public TerminalOutput exec(@NonNull String cmd) {
+        return execute(false, cmd);
     }
 
     @NonNull
-    public String execSu(@NonNull String cmd) {
-        Log.d(TAG, "Executing as SU '" + cmd + "'");
-        try {
-            Process process = Runtime.getRuntime().exec("su");
-            DataInputStream is = new DataInputStream(process.getInputStream());
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes(cmd + "\n");
-            os.writeBytes("exit\n");
-            os.flush();
-            os.close();
-
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            final String result = readFromReader(reader);
-
-            process.waitFor();
-            reader.close();
-
-            return result;
-        } catch (IOException | InterruptedException e) {
-            Log.e(TAG, "execSU, Exception: " + e);
-            e.printStackTrace();
-        }
-
-        return "";
+    public TerminalOutput execSu(@NonNull String cmd) {
+        return execute(true, cmd);
     }
 
 
-    private String readFromReader(BufferedReader reader) {
+    private TerminalOutput execute(boolean asRoot,
+                                   @NonNull String command) {
+        Log.d(TAG, "Executing (root=" + asRoot + ") '" + command + "'");
+
         try {
-            StringBuilder fullOutput = new StringBuilder();
+            final Process process = createProcess(asRoot);
+
+            final DataInputStream stdOutStream = new DataInputStream(process.getInputStream());
+            final DataInputStream stdErrStream = new DataInputStream(process.getErrorStream());
+            final BufferedReader stdOutReader = new BufferedReader(new InputStreamReader(stdOutStream));
+            final BufferedReader stdErrReader = new BufferedReader(new InputStreamReader(stdErrStream));
+
+            final DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
+            outputStream.writeBytes(command + "\n");
+            outputStream.writeBytes("exit\n");
+            outputStream.flush();
+            outputStream.close();
+
+            final String stdOut = readFromReader(stdOutReader);
+            final String stdErr = readFromReader(stdErrReader);
+            process.waitFor();
+            stdOutReader.close();
+
+            return new TerminalOutput(
+                    asRoot,
+                    command,
+                    process.exitValue(),
+                    stdOut,
+                    stdErr);
+        } catch (IOException | InterruptedException e) {
+            Log.e(TAG, "Executing (root=" + asRoot + ") Exception: " + e);
+            e.printStackTrace();
+
+            return new TerminalOutput(asRoot, command, -1, "", e.getMessage());
+        }
+    }
+
+
+    private Process createProcess(boolean asRoot) throws IOException {
+        if (asRoot) {
+            return Runtime.getRuntime().exec("su");
+        } else {
+            return Runtime.getRuntime().exec("sh");
+        }
+    }
+
+    private String readFromReader(BufferedReader reader) {
+        StringBuilder fullOutput = new StringBuilder();
+        try {
             String line;
             while ((line = reader.readLine()) != null) {
                 fullOutput.append(line).append('\n');

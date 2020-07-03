@@ -2,6 +2,7 @@ package uk.co.alt236.underthehood.commandrunner
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
+import uk.co.alt236.underthehood.commandrunner.core.TerminalOutput
 
 internal abstract class CommandGroup(private val res: Resources) {
     private val commandRunner = Cli()
@@ -33,9 +34,27 @@ internal abstract class CommandGroup(private val res: Resources) {
 
         val list = ArrayList<String>(2)
         list.add(getPromptSymbol(isRooted) + command)
-        list.add(result.trim { it <= ' ' })
+
+        val commandOutput = normaliseOutput(result)
+
+        list.add(commandOutput)
 
         return list
+    }
+
+    private fun normaliseOutput(result: TerminalOutput): String {
+        val commandHadOutput = result.stdOut.trim().isNotBlank()
+        val commandHadError = result.stdErr.trim().isNotBlank()
+
+        return when {
+            commandHadOutput -> result.stdOut.trim()
+            result.exitValue == 0 -> "[Command produced no output]"
+            commandHadError -> result.stdErr.trim()
+            else -> {
+                "[Command failed with no output. Exit code: ${result.exitValue}]"
+            }
+        }
+
     }
 
 }
