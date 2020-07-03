@@ -7,7 +7,7 @@
 		·Original icon by Tim (http://www.clker.com/clipart-green-car-2.html).\n
 	</string>
 
-    <string name="app_copyright">Copyright A. Schillings, 2010</string>
+    <string name="app_copyright">Copyright A. Schillings, 2010–2020</string>
 
     <string name="app_changelog">
 		Changelog:\n
@@ -21,6 +21,7 @@
 		•v0.0.8 Added more commands, added group separators.\n
 		•v0.0.9 Fixed export to SD card.\n
 		•v0.1.0 UI rewrite and fixes.\n
+        •v1.0.0 Modernised the app.\n
 	</string>
 
     <string name="app_notes">

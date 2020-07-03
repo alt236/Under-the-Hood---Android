@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="seperator_identifier">•</string>
+    <string name="seperator_identifier" translatable="false">•</string>
 </resources>

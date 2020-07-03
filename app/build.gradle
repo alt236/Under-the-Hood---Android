@@ -3,38 +3,79 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.github.triplet.play' version '2.5.0'
 }
 
-android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.0"
+apply from: "${project.rootDir}/buildsystem/android-defaults.gradle"
 
+android {
     defaultConfig {
+        def buildNumber = getBuildNumber()
+
         applicationId "aws.apps.underthehood"
-        minSdkVersion 14
-        targetSdkVersion 29
-        versionCode = 10
-        versionName = "0.1.0"
+        versionCode buildNumber
+        versionName "1.0.0." + buildNumber
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("ANDROID_KEYSTORE") ?: "[KEY_NOT_DEFINED]")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+
+        debug {
+            storeFile file("${project.rootDir}/buildsystem/signing_keys/debug.keystore")
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if(isRunningOnCi()) {
+                signingConfig signingConfigs.release
+            }
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
         }
     }
 
     dependencies {
-        def lifecycle_version = "2.2.0"
-
         implementation project(":command_runner")
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-        implementation "androidx.appcompat:appcompat:1.1.0"
-        implementation "com.google.android.material:material:1.1.0"
-        implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+        implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+        implementation "com.google.android.material:material:$android_material_version"
+        implementation "com.github.JakeWharton:ViewPagerIndicator:$viewpager_indicator_version"
 
-        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
+        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
+    }
+}
+
+play {
+    def credentialsPath = System.getenv("GPLAY_DEPLOY_KEY") ?: "[KEY_NOT_DEFINED]"
+    def lastCommitMessage = getLastGitCommitMessage().take(50)
+    logger.warn("GPP Config: $credentialsPath")
+    logger.warn("Release Name: '$lastCommitMessage'")
+
+    if(isRunningOnCi()) {
+        enabled = true
+        track = "internal"
+        //userFraction = 1.0
+        releaseStatus = "completed"
+        serviceAccountCredentials = file(credentialsPath)
+        releaseName = lastCommitMessage
+        artifactDir = file("${project.rootDir}/app/build/outputs/apk/release/")
+    } else {
+        enabled = false
     }
 }

@@ -1,0 +1,24 @@
+ext {
+    // androidx libraries
+    androidx_appcompat_version = "1.1.0"
+    androidx_lifecycle_version = "2.2.0"
+    androidx_core_ktx_version = "1.1.0"
+    androidx_annotation_version = "1.1.0"
+
+    androidx_test_core_version = "1.1.0"
+    androidx_test_ext_junit_version = "1.0.0"
+    androidx_test_runner_version = "1.1.1"
+    androidx_test_rules_version = "1.1.1"
+
+    // UI
+    android_material_version = "1.1.0"
+    viewpager_indicator_version = "2.4.1"
+
+    // testing
+    mockito_version = "2.13.0"
+    mockito_kotlin_version = "2.1.0"
+    junit_version = "4.12"
+
+    // code quality
+    jacoco_version = "0.8.5"
+}
