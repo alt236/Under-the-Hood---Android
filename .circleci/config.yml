@@ -209,4 +209,5 @@ workflows:
   version: 2.1
   build-and-deploy:
     jobs:
-      - local_test
+      - local_test:
+          context: personal-android-play

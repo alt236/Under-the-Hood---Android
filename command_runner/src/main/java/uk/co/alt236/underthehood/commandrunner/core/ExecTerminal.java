@@ -23,10 +23,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import androidx.annotation.NonNull;
+
 public class ExecTerminal {
     final String TAG = this.getClass().getSimpleName();
 
-    public String exec(String cmd) {
+    @NonNull
+    public String exec(@NonNull String cmd) {
         Log.d(TAG, "Executing '" + cmd + "'");
 
         try {
@@ -53,7 +56,8 @@ public class ExecTerminal {
         return "";
     }
 
-    public String execSu(String cmd) {
+    @NonNull
+    public String execSu(@NonNull String cmd) {
         Log.d(TAG, "Executing as SU '" + cmd + "'");
         try {
             Process process = Runtime.getRuntime().exec("su");
