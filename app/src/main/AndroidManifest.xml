@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="aws.apps.underthehood"
-    android:versionCode="010"
-    android:versionName="0.1.0">
+    package="aws.apps.underthehood">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Application"
+        android:name="aws.apps.underthehood.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

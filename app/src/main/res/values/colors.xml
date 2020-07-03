@@ -3,15 +3,10 @@
     <color name="default_text_color">#FFEAEAEA</color>
 
     <color name="dark_gray">#FF222222</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="green">#A4C639</color>
     <color name="orange">#FF8C00</color>
 
     <color name="top_result_bg_color">@color/dark_gray</color>
-
-    <color name="unselected_tab_color">#FFEAEAEA</color>
-    <color name="selected_tab_color">#FF222222</color>
 
     <color name="terminal_section_text_color">@color/orange</color>
     <color name="terminal_command_text_color">#00ff00</color>

@@ -4,7 +4,4 @@
     <dimen name="terminal_title_font">12sp</dimen>
     <dimen name="terminal_data_font">12sp</dimen>
 
-    <dimen name="min_font_size">8sp</dimen>
-    <dimen name="max_font_size">16sp</dimen>
-
 </resources>

@@ -35,37 +35,23 @@
     <string name="label_menu_about">About</string>
     <string name="label_menu_share">Share</string>
     <string name="label_menu_save_to_sd">Save to SD</string>
-    <string name="label_menu_font_size_plus">Increase Font</string>
-    <string name="label_menu_font_size_minus">Decrease Font</string>
 
     <string name="label_device">Device:</string>
     <string name="label_root_status">Root Status:</string>
     <string name="label_time">Time:</string>
 
-    <string name="label_ipconfig_info">___ipconfig___________</string>
-    <string name="label_ip_route_info">___ip_n_route_________</string>
-    <string name="label_proc_info">___proc_______________</string>
-    <string name="label_netlist_info">___netlist____________</string>
-    <string name="label_ps_info">___ps_________________</string>
-    <string name="label_other_info">___other______________</string>
-    <string name="label_sys_prop">___system_properties__</string>
-
-    <string name="root_status_ok">Device Rooted</string>
-    <string name="root_status_not_ok">Could not get root?</string>
+    <string name="export_section_device_info">___device_________</string>
+    <string name="export_section_ipconfig_info">___ipconfig___________</string>
+    <string name="export_section_ip_route_info">___ip_n_route_________</string>
+    <string name="export_section_proc_info">___proc_______________</string>
+    <string name="export_section_netstat_info">___netstat____________</string>
+    <string name="export_section_ps_info">___ps_________________</string>
+    <string name="export_section_other_info">___other______________</string>
+    <string name="export_section_sys_prop">___system_properties__</string>
 
     <string name="label_share_dialogue_title">Share with others</string>
-    <string name="label_edit_before_export">Edit text before exporting:</string>
-    <string name="label_export_to_sd">To SD</string>
-    <string name="label_export_close">Close</string>
-    <string name="label_export_share">Share</string>
 
-    <string name="dialogue_text_do_netstat">Do you want to execute netstat?\nIt can take a while to compete.</string>
-    <string name="dialogue_text_please_wait">Please wait…</string>
-    <string name="dialogue_title_select_commands">Select commands to execute</string>
-
-    <string name="text_execution_skipped_by_user">Execution skipped by user.</string>
     <string name="text_under_the_hood">under_the_hood</string>
     <string name="template_text_copied">\'%s\' copied.</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
 </resources>
