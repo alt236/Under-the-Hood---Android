@@ -16,7 +16,7 @@ class Result(val error: Boolean = false) {
     var ipRouteData: List<CommandOutputGroup> = emptyList()
         internal set
 
-    var ipConfigData: List<CommandOutputGroup> = emptyList()
+    var hardwareData: List<CommandOutputGroup> = emptyList()
         internal set
 
     var psData: List<CommandOutputGroup> = emptyList()

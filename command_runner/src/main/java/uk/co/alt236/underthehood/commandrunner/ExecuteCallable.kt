@@ -24,7 +24,7 @@ import java.util.concurrent.Callable
 
 internal class ExecuteCallable(res: Resources) : Callable<Result> {
     private val commandRunner = Cli()
-    private val ipConfigCommands = IpConfigCommands(res)
+    private val hardwareCommands = HardwareCommands(res)
     private val ipRouteCommands = IpRouteCommands(res)
     private val netstatCommands = NetstatCommands(res)
     private val otherCommands = OtherCommands(res)
@@ -53,7 +53,7 @@ internal class ExecuteCallable(res: Resources) : Callable<Result> {
         result.timestamp = System.currentTimeMillis()
         result.deviceinfo = Build.PRODUCT + " " + Build.DEVICE
 
-        result.ipConfigData = (ipConfigCommands.execute(isRooted))
+        result.hardwareData = (hardwareCommands.execute(isRooted))
         result.ipRouteData = (ipRouteCommands.execute(isRooted))
         result.netstatData = (netstatCommands.execute(isRooted))
         result.otherData = (otherCommands.execute(isRooted))

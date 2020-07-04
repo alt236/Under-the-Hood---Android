@@ -29,7 +29,7 @@ class SharePayloadFactory(private val resources: Resources) {
         appendData(sb, R.string.export_section_device_info, result.deviceinfo)
         sb.append("---------------------------------\n\n")
 
-        appendData(sb, R.string.export_section_ipconfig_info, result.ipConfigData)
+        appendData(sb, R.string.export_section_hardware_info, result.hardwareData)
         appendData(sb, R.string.export_section_ip_route_info, result.ipRouteData)
         appendData(sb, R.string.export_section_proc_info, result.procData)
         appendData(sb, R.string.export_section_ps_info, result.psData)
