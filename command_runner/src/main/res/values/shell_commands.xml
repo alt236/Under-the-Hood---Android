@@ -1,38 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="shell_netcfg" translatable="false">netcfg</string>
-    <string name="shell_ifconfig_dash_a" translatable="false">ifconfig -a</string>
-    <string name="shell_ip_addr" translatable="false">ip addr</string>
-    <string name="shell_ip_neigh" translatable="false">ip neigh</string>
-    <string name="shell_ip_inet6_addr" translatable="false">ip -f inet6 addr</string>
-    <string name="shell_ip_route_show" translatable="false">ip route show</string>
-    <string name="shell_ip_inet6_route_show" translatable="false">ip -f inet6 route show</string>
-    <string name="shell_route_n" translatable="false">route -n</string>
-    <string name="shell_route_inet6" translatable="false">route -A inet6 -n</string>
-    <string name="shell_df_ah" translatable="false">df -ah</string>
-    <string name="shell_ps" translatable="false">ps</string>
-    <string name="shell_netstat_r" translatable="false">netstat -rpnW</string>
-    <string name="shell_netstat_a" translatable="false">netstat -apnW</string>
-    <string name="shell_uname_a" translatable="false">uname -a</string>
-    <string name="shell_lsmod" translatable="false">lsmod</string>
+    <!-- IpConfig -->
+    <string-array name="commands_ip_v4">
+        <item>ip addr</item>
+        <item>ip neigh</item>
+        <item>ip route show</item>
+        <item>route -n</item>
+    </string-array>
+
+    <string-array name="commands_ip_v6">
+        <item>ip -f inet6 addr</item>
+        <item>ip -f inet6 neigh</item>
+        <item>ip -f inet6 route show</item>
+        <item>route -A inet6 -n</item>
+    </string-array>
+
+    <string-array name="commands_ip_config">
+        <item>ifconfig -a</item>
+        <item>netcfg</item>
+    </string-array>
+
+    <!-- ps -->
+    <string-array name="commands_ps">
+        <item>ps</item>
+    </string-array>
+
+    <!-- Netstat -->
+    <string-array name="commands_netstat">
+        <item>netstat -apnW</item>
+        <item>netstat -rpnW</item>
+    </string-array>
+
+    <!-- Other  -->
+    <string-array name="commands_other">
+        <item>df -ah</item>
+        <item>uname -a</item>
+        <item>lsmod</item>
+    </string-array>
 
     <!-- Proc  -->
-    <string name="shell_cat_proc_version" translatable="false">cat /proc/version</string>
-    <string name="shell_cat_proc_devices" translatable="false">cat /proc/devices</string>
-    <string name="shell_cat_proc_mounts" translatable="false">cat /proc/mounts</string>
-    <string name="shell_cat_proc_meminfo" translatable="false">cat /proc/meminfo</string>
-    <string name="shell_cat_proc_net_route" translatable="false">cat /proc/net/route</string>
-    <string name="shell_cat_proc_net_if_inet6" translatable="false">cat /proc/net/if_inet6</string>
-    <string name="shell_cat_proc_net_ipv6_route" translatable="false">cat /proc/net/ipv6_route</string>
-    <string name="shell_cat_proc_net_arp" translatable="false">cat /proc/net/arp</string>
-    <string name="shell_cat_proc_net_wireless" translatable="false">cat /proc/net/wireless</string>
+    <string-array name="commands_proc_general">
+        <item>cat /proc/meminfo</item>
+        <item>cat /proc/uptime</item>
+        <item>cat /proc/version</item>
+    </string-array>
+
+    <string-array name="commands_proc_hardware">
+        <item>cat /proc/cpuinfo</item>
+        <item>cat /proc/devices</item>
+        <item>cat /proc/mounts</item>
+    </string-array>
+
+    <string-array name="commands_proc_network">
+        <item>cat /proc/net/arp</item>
+        <item>cat /proc/net/if_inet6</item>
+        <item>cat /proc/net/ipv6_route</item>
+        <item>cat /proc/net/route</item>
+        <item>cat /proc/net/wireless</item>
+    </string-array>
 
     <!-- Getprop  -->
-    <string name="shell_getprop_product_version" translatable="false">getprop ro.product.version</string>
-    <string name="shell_getprop_build_fingerprint" translatable="false">getprop ro.build.fingerprint</string>
-    <string name="shell_getprop_gsm_baseband" translatable="false">getprop gsm.version.baseband</string>
-    <string name="shell_getprop_vm_heapsize" translatable="false">getprop dalvik.vm.heapsize</string>
-    <string name="shell_getprop_lcd_density" translatable="false">getprop ro.sf.lcd_density</string>
-    <string name="shell_getprop_vm_execution_mode" translatable="false">getprop dalvik.vm.execution-mode</string>
+    <string-array name="commands_geprop">
+        <item>getprop</item>
+    </string-array>
+
+    <!-- Hardware -->
+    <string-array name="commands_hardware">
+        <item>lshal</item>
+        <item>lspci</item>
+        <item>lsusb</item>
+    </string-array>
 </resources>

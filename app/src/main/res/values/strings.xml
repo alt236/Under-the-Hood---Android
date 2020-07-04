@@ -42,7 +42,7 @@
     <string name="label_time">Time:</string>
 
     <string name="export_section_device_info">___device_________</string>
-    <string name="export_section_ipconfig_info">___ipconfig___________</string>
+    <string name="export_section_hardware_info">___hardware___________</string>
     <string name="export_section_ip_route_info">___ip_n_route_________</string>
     <string name="export_section_proc_info">___proc_______________</string>
     <string name="export_section_netstat_info">___netstat____________</string>

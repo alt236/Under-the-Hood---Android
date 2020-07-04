@@ -3,16 +3,13 @@ package uk.co.alt236.underthehood.commandrunner.groups
 import android.content.res.Resources
 import uk.co.alt236.underthehood.commandrunner.CommandGroup
 import uk.co.alt236.underthehood.commandrunner.R
-import uk.co.alt236.underthehood.commandrunner.model.CommandOutput
 import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 
-internal class IpConfigCommands internal constructor(res: Resources) : CommandGroup(res) {
+internal class HardwareCommands internal constructor(res: Resources) : CommandGroup(res) {
 
     override fun execute(rooted: Boolean): List<CommandOutputGroup> {
-        val list = ArrayList<CommandOutput>()
-
-        list.add(execute(R.string.shell_netcfg, rooted))
-        list.add(execute(R.string.shell_ifconfig_dash_a, rooted))
+        val commands = getStringArray(R.array.commands_hardware)
+        val list = execute(commands, rooted)
 
         return listOf(
                 CommandOutputGroup(

@@ -1,10 +1,12 @@
 package uk.co.alt236.underthehood.commandrunner
 
 import android.content.res.Resources
+import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import uk.co.alt236.underthehood.commandrunner.core.TerminalOutput
 import uk.co.alt236.underthehood.commandrunner.model.CommandOutput
 import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
+import java.util.*
 
 internal abstract class CommandGroup(private val res: Resources) {
     private val commandRunner = Cli()
@@ -15,10 +17,24 @@ internal abstract class CommandGroup(private val res: Resources) {
         return res.getString(resId)
     }
 
+    protected fun getStringArray(@ArrayRes resId: Int): Array<String> {
+        return res.getStringArray(resId)
+    }
+
     protected fun execute(@StringRes command: Int,
                           isRooted: Boolean): CommandOutput {
         val commandString = getString(command)
         return execute(commandString, isRooted)
+    }
+
+
+    protected fun execute(commands: Array<String>,
+                          isRooted: Boolean): List<CommandOutput> {
+        val list = ArrayList<CommandOutput>()
+        for (command in commands) {
+            list.add(execute(command, isRooted))
+        }
+        return list
     }
 
     protected fun execute(command: String,

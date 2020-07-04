@@ -20,7 +20,7 @@ class MainView(activity: Activity) {
     private val lblRootStatus: TextView
     private val lblTimeDate: TextView
     private val lblDevice: TextView
-    private val tableIpconfig: TableLayout
+    private val tableHardware: TableLayout
     private val tableIpRoute: TableLayout
     private val tablePs: TableLayout
     private val tableOther: TableLayout
@@ -54,7 +54,7 @@ class MainView(activity: Activity) {
         tableConverter.listToTable(tableLayoutParams, tableIpRoute, result.ipRouteData)
         tableConverter.listToTable(tableLayoutParams, tablePs, result.psData)
         tableConverter.listToTable(tableLayoutParams, tableProc, result.procData)
-        tableConverter.listToTable(tableLayoutParams, tableIpconfig, result.ipConfigData)
+        tableConverter.listToTable(tableLayoutParams, tableHardware, result.hardwareData)
         tableConverter.listToTable(tableLayoutParams, tableNetstat, result.netstatData)
         tableConverter.listToTable(tableLayoutParams, tableSysProp, result.sysPropData)
     }
@@ -71,12 +71,12 @@ class MainView(activity: Activity) {
         lblRootStatus = activity.findViewById(R.id.tvRootStatus)
         lblTimeDate = activity.findViewById(R.id.tvTime)
         lblDevice = activity.findViewById(R.id.tvDevice)
-        tableIpconfig = createTable(adapter, "netcfg / ipconfig")
-        tableIpRoute = createTable(adapter, "ip")
-        tableNetstat = createTable(adapter, "netstat")
-        tableProc = createTable(adapter, "proc")
-        tablePs = createTable(adapter, "ps")
         tableSysProp = createTable(adapter, "prop")
+        tableIpRoute = createTable(adapter, "ip")
+        tableProc = createTable(adapter, "proc")
+        tableHardware = createTable(adapter, "hardware")
+        tableNetstat = createTable(adapter, "netstat")
+        tablePs = createTable(adapter, "ps")
         tableOther = createTable(adapter, "other")
         viewPager.adapter = adapter
         indicator.setViewPager(viewPager)
