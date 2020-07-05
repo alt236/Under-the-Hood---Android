@@ -71,7 +71,7 @@ class MainView(activity: Activity) {
         tableSysProp = createTable(adapter, "prop")
         tableIpRoute = createTable(adapter, "ip")
         tableProc = createTable(adapter, "proc")
-        tableHardware = createTable(adapter, "hardware")
+        tableHardware = createTable(adapter, "h/w")
         tableNetstat = createTable(adapter, "netstat")
         tablePs = createTable(adapter, "ps")
         tableOther = createTable(adapter, "other")
