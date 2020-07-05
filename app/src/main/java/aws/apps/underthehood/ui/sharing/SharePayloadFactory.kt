@@ -3,14 +3,16 @@ package aws.apps.underthehood.ui.sharing
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import aws.apps.underthehood.R
+import aws.apps.underthehood.time.TimeFormatter
 import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 import uk.co.alt236.underthehood.commandrunner.model.Result
 
 class SharePayloadFactory(private val resources: Resources) {
     private val separator = resources.getString(R.string.seperator_identifier)
+    private val timeFormat = TimeFormatter()
 
     fun create(result: Result): SharePayload {
-        val timestamp = result.timestamp.toString()
+        val timestamp = timeFormat.getIsoDateTimeFileSafe(result.timestamp)
 
         val fileName = "deviceinfo_$timestamp.txt"
 

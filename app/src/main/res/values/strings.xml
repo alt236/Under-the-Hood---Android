@@ -38,7 +38,7 @@
     <string name="label_menu_save_to_sd">Save to SD</string>
 
     <string name="label_device">Device:</string>
-    <string name="label_root_status">Root Status:</string>
+    <string name="label_root_status">Root:</string>
     <string name="label_time">Time:</string>
 
     <string name="export_section_device_info">___device_________</string>
