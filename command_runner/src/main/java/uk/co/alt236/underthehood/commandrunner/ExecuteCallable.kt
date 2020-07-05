@@ -51,7 +51,7 @@ internal class ExecuteCallable(res: Resources) : Callable<Result> {
 
         result.isRooted = isRooted
         result.timestamp = System.currentTimeMillis()
-        result.deviceinfo = Build.PRODUCT + " " + Build.DEVICE
+        result.deviceinfo = getDeviceInfo()
 
         result.hardwareData = (hardwareCommands.execute(isRooted))
         result.ipRouteData = (ipRouteCommands.execute(isRooted))
@@ -64,6 +64,10 @@ internal class ExecuteCallable(res: Resources) : Callable<Result> {
         Log.d(TAG, "^ ExecuteThread: Returning result")
 
         return result
+    }
+
+    private fun getDeviceInfo(): String {
+        return Build.MANUFACTURER + " " + Build.PRODUCT + " " + Build.DEVICE + ", API: ${Build.VERSION.SDK_INT}".trim()
     }
 
     companion object {

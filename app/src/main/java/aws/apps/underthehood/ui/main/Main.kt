@@ -19,6 +19,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import aws.apps.underthehood.R
@@ -53,6 +55,7 @@ class Main : AppCompatActivity() {
             view?.let { view ->
                 view.clear()
                 if (newData != null) {
+                    removeDialogFragmentByTag(FRAGMENT_TAG_PROGRESS)
                     view.showResults(newData)
                     sharePayload = sharePayloadFactory.create(newData)
                 }
@@ -82,7 +85,7 @@ class Main : AppCompatActivity() {
         val id = item.itemId
         return when (id) {
             R.id.menu_about -> {
-                DialogFactory.createAboutDialog(this).show(supportFragmentManager, "ALERT_DIALOG")
+                DialogFactory.createAboutDialog(this).show(supportFragmentManager, FRAGMENT_TAG_ABOUT)
                 true
             }
             R.id.menu_share -> {
@@ -102,10 +105,24 @@ class Main : AppCompatActivity() {
     }
 
     private fun refreshInfo() {
+        DialogFactory.createProgressDialog().show(supportFragmentManager, FRAGMENT_TAG_PROGRESS)
         commandRunner?.runCommands(object : CommandRunner.Callback<Result> {
             override fun onCommandsCompleted(result: Result) {
                 model?.currentData?.postValue(result)
             }
         })
+    }
+
+    private fun FragmentActivity.removeDialogFragmentByTag(tag: String) {
+        val fragment = supportFragmentManager.findFragmentByTag(tag)
+        fragment?.let {
+            val dialog = it as DialogFragment
+            dialog.dismiss()
+        }
+    }
+
+    private companion object {
+        const val FRAGMENT_TAG_PROGRESS = "PROGRESS_FRAGMENT"
+        const val FRAGMENT_TAG_ABOUT = "ABOUT_FRAGMENT"
     }
 }

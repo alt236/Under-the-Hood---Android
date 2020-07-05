@@ -13,8 +13,9 @@ import uk.co.alt236.underthehood.commandrunner.model.CommandOutputGroup
 class TableConverter(private val gui: GuiCreation) {
     private val TAG = this.javaClass.name
     private val separator = gui.getString(R.string.seperator_identifier)
+    private val lp = TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT)
 
-    fun listToTable(lp: TableLayout.LayoutParams, t: TableLayout, groups: List<CommandOutputGroup>) {
+    fun listToTable(t: TableLayout, groups: List<CommandOutputGroup>) {
         try {
             if (groups.isEmpty()) {
                 return

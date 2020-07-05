@@ -6,13 +6,14 @@ import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import aws.apps.underthehood.R
 import aws.apps.underthehood.adapters.ViewPagerAdapter
+import aws.apps.underthehood.time.TimeFormatter
 import aws.apps.underthehood.ui.views.GuiCreation
 import com.viewpagerindicator.TabPageIndicator
 import uk.co.alt236.underthehood.commandrunner.model.Result
 import java.util.*
 
 class MainView(activity: Activity) {
-    private val tableLayoutParams = TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT)
+    private val timeFormatter = TimeFormatter()
     private val gui: GuiCreation = GuiCreation(activity)
     private val tableConverter = TableConverter(gui)
     private val tableList: MutableList<TableLayout> = ArrayList()
@@ -47,20 +48,16 @@ class MainView(activity: Activity) {
 
     fun showResults(result: Result) {
         lblRootStatus.text = if (result.isRooted) "Rooted" else "Not rooted"
-        lblTimeDate.text = result.timestamp.toString()
+        lblTimeDate.text = timeFormatter.getIsoDateTime(result.timestamp)
         lblDevice.text = result.deviceinfo
 
-        tableConverter.listToTable(tableLayoutParams, tableOther, result.otherData)
-        tableConverter.listToTable(tableLayoutParams, tableIpRoute, result.ipRouteData)
-        tableConverter.listToTable(tableLayoutParams, tablePs, result.psData)
-        tableConverter.listToTable(tableLayoutParams, tableProc, result.procData)
-        tableConverter.listToTable(tableLayoutParams, tableHardware, result.hardwareData)
-        tableConverter.listToTable(tableLayoutParams, tableNetstat, result.netstatData)
-        tableConverter.listToTable(tableLayoutParams, tableSysProp, result.sysPropData)
-    }
-
-    companion object {
-        private val TAG = MainView::class.java.simpleName
+        tableConverter.listToTable(tableOther, result.otherData)
+        tableConverter.listToTable(tableIpRoute, result.ipRouteData)
+        tableConverter.listToTable(tablePs, result.psData)
+        tableConverter.listToTable(tableProc, result.procData)
+        tableConverter.listToTable(tableHardware, result.hardwareData)
+        tableConverter.listToTable(tableNetstat, result.netstatData)
+        tableConverter.listToTable(tableSysProp, result.sysPropData)
     }
 
     init {

@@ -7,6 +7,10 @@ import aws.apps.underthehood.R
 
 object DialogFactory {
 
+    fun createProgressDialog(): DialogFragment {
+        return ProgressDialogFragment.newInstance()
+    }
+
     fun createAboutDialog(context: Context): DialogFragment {
         val title = context.getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME
         val message = getAboutText(context)
